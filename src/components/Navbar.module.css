@@ -1,0 +1,27 @@
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.nav-link:link,
+.nav-link:visited {
+  margin: 0.4rem;
+}
+
+.nav-link:hover,
+.nav-link:active {
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.075);
+  transform: scale(1.1);
+}
+
+.main-actions {
+  justify-self: start;
+  display: flex;
+}
+
+.user-actions {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
