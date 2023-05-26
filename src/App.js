@@ -3,12 +3,15 @@ import { Route } from "react-router-dom";
 import { Fragment } from "react";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
+import styles from "./App.module.css";
 
 function App() {
   return (
     <Fragment>
       <Navbar />
-      <Route path="/" component={Home} />
+      <main className={styles.main}>
+        <Route path="/" component={Home} />
+      </main>
       <Footer></Footer>
     </Fragment>
   );
