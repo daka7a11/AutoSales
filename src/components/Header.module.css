@@ -1,0 +1,47 @@
+.header {
+  height: 100vh;
+  background-image: linear-gradient(
+      rgba(34, 34, 34, 0.6),
+      rgba(34, 34, 34, 0.6)
+    ),
+    url("../img/header-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.welcome-text-container {
+  margin: 9.6rem auto;
+}
+
+.welcome-text {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  font-size: 4.8rem;
+  line-height: 1.1;
+}
+
+.description {
+  font-size: 3.6rem;
+}
+
+.features-links-container {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  margin: 9.6rem auto;
+  align-items: end;
+}
+
+.features-link {
+  font-size: 3rem;
+  font-weight: 400;
+  margin: 3.6rem auto;
+}
+
+.feature-link:link,
+.feature-link:visited {
+  font-size: 3rem;
+  color: #ff922b;
+  font-weight: 600;
+}

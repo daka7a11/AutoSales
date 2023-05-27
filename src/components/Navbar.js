@@ -6,7 +6,10 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles["main-actions"]}>
-        <NavLink className={`btn ${styles["nav-link"]}`} to="/">
+        <NavLink
+          className={`btn ${styles["nav-link"]} ${styles["home-link"]}`}
+          to="/"
+        >
           Auto Sales
         </NavLink>
         <NavLink className={`btn ${styles["nav-link"]}`} to="/all">
