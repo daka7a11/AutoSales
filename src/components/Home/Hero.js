@@ -1,11 +1,9 @@
-import styles from "./Header.module.css";
-import Navbar from "./Navbar";
-import Container from "./UI/Container";
+import styles from "./Hero.module.css";
+import Container from "../UI/Container";
 
 const Hero = () => {
   return (
-    <section className={styles.header}>
-      <Navbar></Navbar>
+    <section className={styles.hero}>
       <Container className={styles["welcome-text-container"]}>
         <span className={styles["welcome-text"]}>
           Welcome to our dynamic car marketplace!
@@ -20,25 +18,27 @@ const Hero = () => {
         <div className={styles["features-links"]}>
           <div className={styles["features-link"]}>
             <a href="#" className={styles["feature-link"]}>
-              Begin
-            </a>{" "}
-            your journey now and discover the perfect match for your automotive
-            needs.
+              <span>Find</span> the perfect match for your automotive needs.
+            </a>
           </div>
           <div className={styles["features-link"]}>
-            <a href="#" className={styles["feature-link"]}>
-              Explore
-            </a>{" "}
-            the recently added vehicle.
+            <a href="#recently-added" className={styles["feature-link"]}>
+              <span>Explore</span> the recently added vehicle.
+            </a>
           </div>
           <div className={styles["features-link"]}>
-            <a href="#" className={styles["feature-link"]}>
-              Discover
-            </a>{" "}
-            our most liked cars.
+            <a href="#most-liked" className={styles["feature-link"]}>
+              <span>Discover</span> our most liked cars.
+            </a>
           </div>
         </div>
       </Container>
+      <a href="#features">
+        <ion-icon
+          class={styles["arr-icon"]}
+          name="chevron-down-sharp"
+        ></ion-icon>
+      </a>
     </section>
   );
 };

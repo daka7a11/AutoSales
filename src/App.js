@@ -1,14 +1,13 @@
 import { Route } from "react-router-dom";
 import { Fragment } from "react";
-import Header from "./components/Header";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
-import styles from "./App.module.css";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <Fragment>
-      <Header></Header>
+      <Navbar></Navbar>
       <Route path="/" component={Home} />
       <Footer></Footer>
     </Fragment>

@@ -1,0 +1,80 @@
+.hero {
+  height: calc(100vh - 74px);
+  background-image: linear-gradient(
+      rgba(34, 34, 34, 0.6),
+      rgba(34, 34, 34, 0.5)
+    ),
+    url("../../img/header-background-resized.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.075);
+  position: relative;
+}
+
+.welcome-text-container {
+  margin: 0 auto;
+  padding-top: 4.8rem;
+}
+
+.welcome-text {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  font-size: 4.8rem;
+  line-height: 1.1;
+}
+
+.description {
+  font-size: 3.6rem;
+}
+
+.features-links-container {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  margin: 9.6rem auto;
+  align-items: end;
+}
+
+.features-link {
+  font-size: 3rem;
+  font-weight: 400;
+  margin: 3.6rem auto;
+}
+
+.feature-link:link,
+.feature-link:visited {
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+
+.feature-link:hover,
+.feature-link:active {
+  color: #ffd8a8;
+  text-decoration: underline;
+}
+
+.feature-link span {
+  font-size: inherit;
+  color: #ffd8a8;
+}
+
+.arr-icon {
+  position: absolute;
+  bottom: 2.4rem;
+  right: 50%;
+  color: #fff;
+  height: 35px;
+  width: 35px;
+  transition: 0.4s;
+}
+
+.arr-icon:hover {
+  position: absolute;
+  bottom: 2.4rem;
+  right: 50%;
+  color: #ffd8a8;
+  height: 35px;
+  width: 35px;
+  transform: scale(1.3);
+}

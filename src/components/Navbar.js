@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 
 import styles from "./Navbar.module.css";
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar} ${props.className}`}>
       <div className={styles["main-actions"]}>
         <NavLink
           className={`btn ${styles["nav-link"]} ${styles["home-link"]}`}

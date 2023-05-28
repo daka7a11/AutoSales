@@ -52,10 +52,6 @@ Medium: 11px
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
 */
 
-* {
-  font-size: 20px;
-}
-
 html {
   font-size: 62.5%;
   font-family: "Rubik", sans-serif;
@@ -67,8 +63,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-size: 2rem;
 }
 
 a,
