@@ -11,9 +11,22 @@ const Cart = () => {
         <p className={`${styles["text"]} ${styles["item-title"]}`}>
           Toyota corolla 300 kubica
         </p>
-        <p className={`${styles["text"]} ${styles["item-price"]}`}>5000</p>
-        <p className={`${styles["text"]} ${styles["item-km"]}`}>199 000</p>
-        <p className={`${styles["text"]} ${styles["item-city"]}`}>Town</p>
+        <div className={`${styles["text"]} ${styles["item-price"]}`}>
+          <ion-icon class={styles["icon"]} name="logo-usd"></ion-icon>
+          <p>5000</p>
+        </div>
+        <div className={`${styles["text"]} ${styles["item-km"]}`}>
+          <ion-icon class={styles["icon"]} name="speedometer"></ion-icon>
+          <p>199 000 km</p>
+        </div>
+        <div className={`${styles["text"]} ${styles["item-city"]}`}>
+          <ion-icon class={styles["icon"]} name="location-sharp"></ion-icon>
+          <p>Bulgaria</p>
+        </div>
+        <div className={`${styles["text"]} ${styles["item-city"]}`}>
+          <ion-icon class={styles["icon"]} name="calendar"></ion-icon>
+          <p>2020</p>
+        </div>
       </div>
     </div>
   );

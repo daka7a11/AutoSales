@@ -51,17 +51,20 @@ Medium: 11px
 - Spacing system (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
 */
+* {
+  margin: 0;
+  padding: 0;
+}
 
 html {
   font-size: 62.5%;
   font-family: "Rubik", sans-serif;
   background-color: #e9ecef;
   color: #eee;
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-size: 2rem;
 }

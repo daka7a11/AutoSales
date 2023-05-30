@@ -17,8 +17,6 @@
 .recently-added-container,
 .most-liked-container {
   width: 95%;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr; */
 }
 
 .recently-added-container {
