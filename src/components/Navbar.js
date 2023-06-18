@@ -12,8 +12,8 @@ const Navbar = (props) => {
         >
           Auto Sales
         </NavLink>
-        <NavLink className={`btn ${styles["nav-link"]}`} to="/all">
-          All sales
+        <NavLink className={`btn ${styles["nav-link"]}`} to="/vehicles">
+          Vehicles
         </NavLink>
       </div>
       <div className={styles["user-actions"]}>

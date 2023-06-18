@@ -8,7 +8,7 @@ const Footer = () => {
       <Container className={styles["container"]}>
         <div className={styles["home-media"]}>
           <a href="#" className={`${styles["home-link"]} ${styles["link"]}`}>
-            Auto Sale
+            Auto Sales
           </a>
           <div className={styles["social-media"]}>
             <a className={`${styles["logo"]} ${styles["link"]}`} href="#">
@@ -24,13 +24,13 @@ const Footer = () => {
         </div>
 
         <div className={styles["fast-links"]}>
-          <a className={styles["link"]} href="#">
+          <a className={styles["link"]} href="/vehicles">
             Find your future vehicle
           </a>
-          <a className={styles["link"]} href="#">
+          <a className={styles["link"]} href="#recently-added">
             Check recently added vehicles
           </a>
-          <a className={styles["link"]} href="#">
+          <a className={styles["link"]} href="#most-liked">
             Check most liked vehicles
           </a>
         </div>
