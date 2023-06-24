@@ -19,8 +19,8 @@ const initialFilterReducerObj = {
     to: null,
   },
   year: {
-    from: null,
-    to: null,
+    from: new Date("1950"),
+    to: new Date("2023"),
   },
   region: null,
   power: {
@@ -69,6 +69,26 @@ const filterReducer = (state, action) => {
     return {
       ...state,
       region: action.value,
+    };
+  }
+
+  if (action.t === "SET_FROM_YEAR") {
+    return {
+      ...state,
+      year: {
+        ...state.year,
+        from: action.value,
+      },
+    };
+  }
+
+  if (action.t === "SET_TO_YEAR") {
+    return {
+      ...state,
+      year: {
+        ...state.year,
+        to: action.value,
+      },
     };
   }
 

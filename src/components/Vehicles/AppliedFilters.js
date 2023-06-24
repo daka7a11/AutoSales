@@ -16,6 +16,9 @@ const AppliedFilter = ({ filterState, filterDispatch }) => {
 
   if (filterState.year.from && filterState.year.to) {
     year = `${filterState.year.from.getFullYear()} - ${filterState.year.to.getFullYear()}`;
+    if (year === "1950 - 2023") {
+      year = null;
+    }
   } else if (filterState.year.from && filterState.year.to === null) {
     year = `${filterState.year.from.getFullYear()} - <span class='infinite-icon'>&infin;</span>`;
   } else if (filterState.year.from === null && filterState.year.to) {

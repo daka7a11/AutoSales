@@ -123,6 +123,7 @@ const SearchForm = ({ filterState, filterDispatch }) => {
           type={filterPopup}
           setFilterPopup={setFilterPopup}
           items={popupCollectionItems[filterPopup]}
+          filterState={filterState}
           filterDispatch={filterDispatch}
         />
       )}
