@@ -9,6 +9,12 @@ const FilterPopup = ({
   filterState,
   filterDispatch,
 }) => {
+  const [fromPrice, setFromPrice] = useState(filterState.price.from);
+  const [toPrice, setToPrice] = useState(filterState.price.to);
+
+  const [fromPower, setFromPower] = useState(filterState.power.from);
+  const [toPower, setToPower] = useState(filterState.power.to);
+
   const onMakeSelectHandler = (e) => {
     filterDispatch({ t: "SET_MAKE", value: e.target.dataset.value });
     setFilterPopup("");
@@ -35,7 +41,7 @@ const FilterPopup = ({
   };
 
   const onPriceSelectHandler = (e) => {
-    filterDispatch({ t: "SET_PRICE", value: e.target.dataset.value });
+    filterDispatch({ t: "SET_PRICE", value: { from: fromPrice, to: toPrice } });
     setFilterPopup("");
   };
 
@@ -56,7 +62,7 @@ const FilterPopup = ({
   };
 
   const onPowerSelectHandler = (e) => {
-    filterDispatch({ t: "SET_POWER", value: e.target.dataset.value });
+    filterDispatch({ t: "SET_POWER", value: { from: fromPower, to: toPower } });
     setFilterPopup("");
   };
 
@@ -146,24 +152,42 @@ const FilterPopup = ({
       <Fragment>
         <div className={styles["form-container"]}>
           <div className={styles["input-section"]}>
-            <label htmlFor="price-from">Min</label>
+            <label htmlFor="price-from">From</label>
             <input
+              onChange={(e) => {
+                setFromPrice(e.target.value);
+              }}
               id="price-from"
               name="price-from"
               type="number"
               min="0"
               step="100"
+              value={fromPrice}
             />
           </div>
           <div className={styles["input-section"]}>
-            <label htmlFor="price-to">Max</label>
+            <label htmlFor="price-to">To</label>
             <input
+              onChange={(e) => {
+                setToPrice(e.target.value);
+              }}
               id="price-to"
               name="price-to"
               type="number"
               min="0"
               step="100"
+              value={toPrice}
             />
+          </div>
+
+          <div className={styles["input-section"]}>
+            <button
+              className={`btn ${styles["btn-popup"]} ${styles["btn-apply"]}`}
+              onClick={onPriceSelectHandler}
+              id="apply"
+            >
+              Apply
+            </button>
           </div>
         </div>
       </Fragment>
@@ -174,6 +198,7 @@ const FilterPopup = ({
           <div className={styles["input-section"]}>
             <label htmlFor="year-from">From</label>
             <input
+              className={styles["range"]}
               onChange={onFromYearChangeHandler}
               id="year-from"
               name="year-from"
@@ -187,6 +212,7 @@ const FilterPopup = ({
           <div className={styles["input-section"]}>
             <label htmlFor="year-to">To</label>
             <input
+              className={styles["range"]}
               onChange={onToYearChangeHandler}
               id="year-to"
               name="year-to"
@@ -218,24 +244,42 @@ const FilterPopup = ({
       <Fragment>
         <div className={styles["form-container"]}>
           <div className={styles["input-section"]}>
-            <label htmlFor="power-from">Min</label>
+            <label htmlFor="power-from">From</label>
             <input
+              onChange={(e) => {
+                setFromPower(e.target.value);
+              }}
               id="power-from"
               name="power-from"
               type="number"
               min="0"
               step="10"
+              value={fromPower}
             />
           </div>
           <div className={styles["input-section"]}>
-            <label htmlFor="power-to">Max</label>
+            <label htmlFor="power-to">To</label>
             <input
+              onChange={(e) => {
+                setToPower(e.target.value);
+              }}
               id="power-to"
               name="power-to"
               type="number"
               min="0"
               step="10"
+              value={toPower}
             />
+          </div>
+
+          <div className={styles["input-section"]}>
+            <button
+              className={`btn ${styles["btn-popup"]} ${styles["btn-apply"]}`}
+              onClick={onPowerSelectHandler}
+              id="apply"
+            >
+              Apply
+            </button>
           </div>
         </div>
       </Fragment>

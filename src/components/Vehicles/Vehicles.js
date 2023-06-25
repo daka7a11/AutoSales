@@ -15,8 +15,8 @@ const initialFilterReducerObj = {
   fuel: null,
   gearbox: null,
   price: {
-    from: null,
-    to: null,
+    from: "",
+    to: "",
   },
   year: {
     from: new Date("1950"),
@@ -24,8 +24,8 @@ const initialFilterReducerObj = {
   },
   region: null,
   power: {
-    from: null,
-    to: null,
+    from: "",
+    to: "",
   },
 };
 
@@ -72,6 +72,23 @@ const filterReducer = (state, action) => {
     };
   }
 
+  if (action.t === "SET_PRICE") {
+    let fromPrice = action.value.from;
+    let toPrice = action.value.to;
+
+    if (toPrice && fromPrice === "") {
+      fromPrice = 0;
+    }
+
+    return {
+      ...state,
+      price: {
+        from: fromPrice,
+        to: toPrice,
+      },
+    };
+  }
+
   if (action.t === "SET_FROM_YEAR") {
     return {
       ...state,
@@ -88,6 +105,23 @@ const filterReducer = (state, action) => {
       year: {
         ...state.year,
         to: action.value,
+      },
+    };
+  }
+
+  if (action.t === "SET_POWER") {
+    let fromPower = action.value.from;
+    let toPower = action.value.to;
+
+    if (toPower && fromPower === "") {
+      fromPower = 0;
+    }
+
+    return {
+      ...state,
+      power: {
+        from: fromPower,
+        to: toPower,
       },
     };
   }

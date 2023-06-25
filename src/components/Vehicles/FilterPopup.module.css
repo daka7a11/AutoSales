@@ -87,6 +87,7 @@
   flex-direction: column;
   align-items: center;
   margin: 2rem;
+  width: 80%;
 }
 
 .input-section input {
@@ -94,4 +95,12 @@
   padding: 0.4rem;
   font-size: 1.6rem;
   border: 1px solid #777;
+}
+
+.range {
+  width: 80%;
+}
+
+.btn-apply {
+  background-color: rgb(255, 140, 0);
 }

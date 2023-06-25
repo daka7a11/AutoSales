@@ -6,11 +6,11 @@ const AppliedFilter = ({ filterState, filterDispatch }) => {
   let year = null;
   let power = null;
 
-  if (filterState.price.from && filterState.price.to) {
+  if (filterState.price.from !== "" && filterState.price.to !== "") {
     price = `${filterState.price.from}$ - ${filterState.price.to}$`;
-  } else if (filterState.price.from && filterState.price.to === null) {
+  } else if (filterState.price.from !== "" && filterState.price.to === "") {
     price = `${filterState.price.from}$ - <span class='infinite-icon'>&infin;</span>`;
-  } else if (filterState.price.from === null && filterState.price.to) {
+  } else if (filterState.price.from === "" && filterState.price.to !== "") {
     price = `0 - ${filterState.price.to}$`;
   }
 
@@ -25,12 +25,12 @@ const AppliedFilter = ({ filterState, filterDispatch }) => {
     year = `<span class='infinite-icon'>&infin;</span> - ${filterState.year.to.getFullYear()}`;
   }
 
-  if (filterState.power.from && filterState.power.to) {
-    power = `${filterState.power.from} - ${filterState.power.to}`;
-  } else if (filterState.power.from && filterState.power.to === null) {
-    power = `${filterState.power.from} - <span class='infinite-icon'>&infin;</span>`;
-  } else if (filterState.power.from === null && filterState.power.to) {
-    power = `0 - ${filterState.power.to}`;
+  if (filterState.power.from !== "" && filterState.power.to !== "") {
+    power = `${filterState.power.from} HP - ${filterState.power.to} HP`;
+  } else if (filterState.power.from !== "" && filterState.power.to === "") {
+    power = `${filterState.power.from} HP - <span class='infinite-icon'>&infin;</span>`;
+  } else if (filterState.power.from === "" && filterState.power.to !== "") {
+    power = `0 - ${filterState.power.to} HP`;
   }
 
   const filters = {
