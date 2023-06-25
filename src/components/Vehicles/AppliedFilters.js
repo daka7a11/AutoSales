@@ -50,7 +50,17 @@ const AppliedFilter = ({ filterState, filterDispatch }) => {
       {filtersArr.map(
         (f) =>
           f.value && (
-            <span key={f.key} className={styles["applied-filter"]}>
+            <span
+              onClick={(e) => {
+                filterDispatch({
+                  t: "REMOVE_FILTER",
+                  value: e.target.dataset.type,
+                });
+              }}
+              key={f.key}
+              className={styles["applied-filter"]}
+              data-type={f.key}
+            >
               {`${f.key}: `}
               {htmlParser(f.value)}
             </span>

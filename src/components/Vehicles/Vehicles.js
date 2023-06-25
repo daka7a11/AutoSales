@@ -126,6 +126,56 @@ const filterReducer = (state, action) => {
     };
   }
 
+  if (action.t === "REMOVE_FILTER") {
+    if (action.value === "type") {
+      return { ...state, type: null };
+    }
+    if (action.value === "make") {
+      return { ...state, make: null, model: null };
+    }
+    if (action.value === "model") {
+      return { ...state, model: null };
+    }
+    if (action.value === "fuel") {
+      return { ...state, fuel: null };
+    }
+    if (action.value === "gearbox") {
+      return { ...state, gearbox: null };
+    }
+    if (action.value === "price") {
+      return {
+        ...state,
+        price: {
+          from: "",
+          to: "",
+        },
+      };
+    }
+    if (action.value === "year") {
+      return {
+        ...state,
+        year: {
+          from: new Date("1950"),
+          to: new Date("2023"),
+        },
+      };
+    }
+
+    if (action.value === "region") {
+      return { ...state, region: null };
+    }
+
+    if (action.value === "power") {
+      return {
+        ...state,
+        power: {
+          from: "",
+          to: "",
+        },
+      };
+    }
+  }
+
   throw new Error("Invalid operation in filter reducer!");
 };
 
