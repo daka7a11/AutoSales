@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Fragment } from "react";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
@@ -12,9 +12,11 @@ function App() {
     <Fragment>
       <AuthProvider>
         <Navbar></Navbar>
-        <Route exact path="/" component={Home} />
-        <Route path="/vehicles" component={Vehicles} />
-        <Route path="/login" component={Login} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/vehicles" element={<Vehicles />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
         <Footer></Footer>
       </AuthProvider>
     </Fragment>

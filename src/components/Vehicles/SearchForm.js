@@ -15,16 +15,11 @@ const SearchForm = ({ filterState, filterDispatch }) => {
   const request = useRequest();
   useEffect(() => {
     async function fetchData() {
-      //const makesModels = Object.values(await dataService.getMakesModels());
       const makesModels = Object.values(
         await request.get(endPoints.makesModels)
       );
 
       setMakesModels(makesModels);
-
-      // const regions = Object.values(await dataService.getRegions()).map(
-      //   (r) => r.name
-      // );
 
       const regions = Object.values(await request.get(endPoints.regions)).map(
         (r) => r.name

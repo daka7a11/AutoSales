@@ -12,7 +12,7 @@ const useRequest = () => {
       headers: {},
     };
 
-    if (data != undefined) {
+    if (data !== undefined) {
       options.headers["Content-Type"] = "application/json";
       options.body = JSON.stringify(data);
     }
