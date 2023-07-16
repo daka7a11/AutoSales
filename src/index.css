@@ -69,6 +69,12 @@ body {
   font-size: 2rem;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 a,
 a:link,
 a:visited {

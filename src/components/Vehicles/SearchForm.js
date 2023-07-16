@@ -4,15 +4,29 @@ import styles from "./SearchForm.module.css";
 import { Fragment } from "react";
 import FilterPopup from "./FilterPopup";
 
-import * as dataService from "../../services/dataService";
+import useRequest from "../../hooks/useRequest";
+
+const endPoints = {
+  makesModels: "/data/vehicles",
+  regions: "/data/regions",
+};
 
 const SearchForm = ({ filterState, filterDispatch }) => {
+  const request = useRequest();
   useEffect(() => {
     async function fetchData() {
-      const makesModels = Object.values(await dataService.getMakesModels());
+      //const makesModels = Object.values(await dataService.getMakesModels());
+      const makesModels = Object.values(
+        await request.get(endPoints.makesModels)
+      );
+
       setMakesModels(makesModels);
 
-      const regions = Object.values(await dataService.getRegions()).map(
+      // const regions = Object.values(await dataService.getRegions()).map(
+      //   (r) => r.name
+      // );
+
+      const regions = Object.values(await request.get(endPoints.regions)).map(
         (r) => r.name
       );
       setRegions(regions);
