@@ -3,23 +3,25 @@ import styles from "./Auth.module.css";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-import useRequest from "../../hooks/useRequest";
-
 const Login = () => {
   const authContext = useContext(AuthContext);
-  console.log(authContext);
 
-  const request = useRequest();
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const { email, password } = Object.fromEntries(new FormData(e.target));
+
+    authContext.login(email, password);
+  };
 
   return (
     <div className={styles["auth-container"]}>
       <div className={styles["page-title"]}>
         <h2>Login</h2>
       </div>
-      <form className={styles["auth-form"]}>
+      <form onSubmit={submitHandler} className={styles["auth-form"]}>
         <div className={styles["form-wrapper"]}>
-          <label htmlFor="username">Username</label>
-          <input id="username" name="username" type="text" />
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="text" />
         </div>
         <div className={styles["form-wrapper"]}>
           <label htmlFor="password">Password</label>

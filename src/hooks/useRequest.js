@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import useUser from "./useUser";
 
 const baseUrl = "http://localhost:3030";
 
 const useRequest = () => {
-  const authContext = useContext(AuthContext);
+  const { getUserData, clearUserData } = useUser();
 
   async function request(method, url, data) {
     const options = {
@@ -17,7 +16,7 @@ const useRequest = () => {
       options.body = JSON.stringify(data);
     }
 
-    const user = authContext.getUserData();
+    const user = getUserData();
     if (user) {
       const token = user.accessToken;
       options.headers["X-Authorization"] = token;
@@ -32,7 +31,7 @@ const useRequest = () => {
         if (res.status === 403) {
           const err403 = new Error(err.message);
           err403.status = 403;
-          authContext.clearUserData();
+          clearUserData();
           throw err403;
         }
 

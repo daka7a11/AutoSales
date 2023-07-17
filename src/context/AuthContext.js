@@ -1,10 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
 import useRequest from "../hooks/useRequest";
+import useUser from "../hooks/useUser";
 
 export const AuthContext = createContext();
-
-const initialUser = null;
 
 const endpoints = {
   login: "/users/login",
@@ -13,21 +12,8 @@ const endpoints = {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(initialUser);
-
+  const { getUserData, setUserData, clearUserData } = useUser();
   const request = useRequest();
-
-  const getUserData = () => {
-    return user;
-  };
-  const setUserData = (user) => {
-    setUser(user);
-    sessionStorage.setItem("user", JSON.stringify(user));
-  };
-  const clearUserData = () => {
-    setUser(initialUser);
-    sessionStorage.removeItem("user");
-  };
 
   const login = async (email, password) => {
     const user = await request.post(endpoints.login, { email, password });
@@ -46,7 +32,14 @@ export const AuthProvider = ({ children }) => {
     clearUserData();
   };
 
-  const providerValue = { user, getUserData, setUserData, clearUserData };
+  const providerValue = {
+    getUserData,
+    setUserData,
+    clearUserData,
+    login,
+    register,
+    logout,
+  };
   return (
     <AuthContext.Provider value={providerValue}>
       {children}
