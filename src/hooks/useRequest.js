@@ -44,7 +44,6 @@ const useRequest = () => {
 
       return res.json();
     } catch (err) {
-      alert(err.message);
       throw new Error(err.message);
     }
   }

@@ -1,50 +1,6 @@
-.auth-container {
-  height: 100%;
-}
-.page-title {
-  text-align: center;
-  margin: 2.4rem auto;
-  color: #333;
-}
-
-.auth-form {
-  width: 20%;
+.form-container {
+  max-width: 50%;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #333;
-  font-size: 2.4rem;
-}
-
-.form-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 0.6rem;
-
-  margin: 0.8rem auto;
-}
-
-.form-wrapper input {
-  font-size: 2.4rem;
-}
-
-.submit-btn {
-  background-color: #ddd;
-
-  transition: all 0.3s;
-}
-
-.not-member-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 1rem;
-  margin: 2.4rem auto;
-
-  text-align: center;
-
-  justify-content: space-between;
-  font-size: 2rem;
 }
 
 .sing-up:link,
@@ -56,9 +12,4 @@
 .sing-up:hover,
 .sing-up:active {
   text-decoration: underline;
-}
-
-.submit-btn:hover {
-  background-color: #ff8c00;
-  color: #fff;
 }

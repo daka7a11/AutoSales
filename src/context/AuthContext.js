@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 import useRequest from "../hooks/useRequest";
 import useUser from "../hooks/useUser";
@@ -12,24 +12,44 @@ const endpoints = {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [error, setError] = useState(null);
+
   const { getUserData, setUserData, clearUserData } = useUser();
   const request = useRequest();
 
-  const login = async (email, password) => {
-    const user = await request.post(endpoints.login, { email, password });
-
-    setUserData(user);
+  const login = async (email, pass) => {
+    try {
+      const { password, ...user } = await request.post(endpoints.login, {
+        email,
+        password: pass,
+      });
+      setUserData(user);
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
   };
 
-  const register = async (email, password) => {
-    const user = await request.post(endpoints.register, { email, password });
-
-    setUserData(user);
+  const register = async (userData) => {
+    try {
+      const { password, ...user } = await request.post(
+        endpoints.register,
+        userData
+      );
+      setUserData(user);
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
   };
 
   const logout = async () => {
     await request.get(endpoints.logout);
     clearUserData();
+  };
+
+  const clearError = () => {
+    setError(null);
   };
 
   const providerValue = {
@@ -39,6 +59,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    error,
+    clearError,
   };
   return (
     <AuthContext.Provider value={providerValue}>

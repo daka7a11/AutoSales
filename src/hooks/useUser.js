@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initialUser = null;
 
 const useUser = () => {
   const [user, setUser] = useState(initialUser);
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   const getUserData = () => {
     return user;
   };

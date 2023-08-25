@@ -1,11 +1,9 @@
 import styles from "./Footer.module.css";
 
-import Container from "./UI/Container";
-
 const Footer = () => {
   return (
     <footer className={styles["footer"]}>
-      <Container className={styles["container"]}>
+      <div className={`${styles["container"]} page-container`}>
         <div className={styles["home-media"]}>
           <a href="#" className={`${styles["home-link"]} ${styles["link"]}`}>
             Auto Sales
@@ -49,7 +47,7 @@ const Footer = () => {
         <div className={styles["copyright-container"]}>
           <p>Copyright &copy; 2023 Auto Sales. All rights reserved.</p>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 };

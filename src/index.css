@@ -54,6 +54,7 @@ Medium: 11px
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -110,4 +111,16 @@ a:visited {
   padding: 0;
 
   margin: 0;
+}
+
+.page-container {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.page-title {
+  text-align: center;
+  margin: 6.4rem auto 1.2rem auto;
+  color: #333;
+  text-transform: uppercase;
 }

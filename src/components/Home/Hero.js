@@ -1,10 +1,10 @@
 import styles from "./Hero.module.css";
-import Container from "../UI/Container";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
     <section className={styles.hero}>
-      <Container className={styles["welcome-text-container"]}>
+      <div className={`${styles["welcome-text-container"]} page-container`}>
         <span className={styles["welcome-text"]}>
           Welcome to our dynamic car marketplace!
           <p className={styles["description"]}>
@@ -13,13 +13,13 @@ const Hero = () => {
             car enthusiasts.
           </p>
         </span>
-      </Container>
-      <Container className={styles["features-links-container"]}>
+      </div>
+      <div className={`${styles["features-links-container"]} page-container`}>
         <div className={styles["features-links"]}>
           <div className={styles["features-link"]}>
-            <a href="#" className={styles["feature-link"]}>
+            <Link to="/vehicles" className={styles["feature-link"]}>
               <span>Find</span> the perfect match for your automotive needs.
-            </a>
+            </Link>
           </div>
           <div className={styles["features-link"]}>
             <a href="#recently-added" className={styles["feature-link"]}>
@@ -32,7 +32,7 @@ const Hero = () => {
             </a>
           </div>
         </div>
-      </Container>
+      </div>
       <a href="#features">
         <ion-icon
           class={styles["arr-icon"]}

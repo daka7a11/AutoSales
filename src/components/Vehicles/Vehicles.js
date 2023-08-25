@@ -1,11 +1,11 @@
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import styles from "./Vehicles.module.css";
 
 import SearchForm from "./SearchForm";
-import Container from "../UI/Container";
 import VehiclesList from "./VehiclesList";
 import AppliedFilter from "./AppliedFilters";
+import useData from "../../hooks/useData";
 
 const initialFilterReducerObj = {
   t: null,
@@ -180,120 +180,35 @@ const filterReducer = (state, action) => {
 };
 
 const Vehicles = () => {
+  const [advertisements, setAdvertisements] = useState([]);
+
+  const { getAdvertisements } = useData();
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getAdvertisements();
+      setAdvertisements(data);
+    }
+
+    fetchData();
+  }, []);
+
   const [filterState, filterDispatch] = useReducer(
     filterReducer,
     initialFilterReducerObj
   );
 
   return (
-    <Container className={styles["vehicles-container"]}>
-      <h2
-        onClick={() => console.log(filterState)}
-        className={styles["heading"]}
-      >
-        Vehicles
-      </h2>
+    <div className={`${styles["vehicles-container"]} page-container`}>
+      <h2 className={styles["heading"]}>Vehicles</h2>
       <SearchForm filterState={filterState} filterDispatch={filterDispatch} />
       <AppliedFilter
         filterState={filterState}
         filterDispatch={filterDispatch}
       />
-      <VehiclesList vehicles={DUMMY_VEHICLES} />
-    </Container>
+      <VehiclesList vehicles={advertisements} />
+    </div>
   );
 };
 
 export default Vehicles;
-
-const DUMMY_VEHICLES = [
-  {
-    id: 1,
-    title: "Lamboghini Galardo",
-    type: "Coupe",
-    make: "Lamborghini",
-    model: "Galardo",
-    fuel: "Petrol",
-    gearbox: "automatic",
-    price: 5000,
-    manufacturing_date: "2010",
-    region: "Varna",
-    hp: 300,
-    mileage: 150000,
-    img: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960",
-  },
-  {
-    id: 2,
-    title: "Golf 1.9 tdi",
-    type: "Hatchback",
-    make: "VW",
-    model: "Golf",
-    fuel: "Diesel",
-    gearbox: "automatic",
-    price: 5000,
-    manufacturing_date: "2010",
-    region: "Varna",
-    hp: 300,
-    mileage: 150000,
-    img: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960",
-  },
-  {
-    id: 3,
-    title: "Golf 1.9 tdi",
-    type: "Hatchback",
-    make: "VW",
-    model: "Golf",
-    fuel: "Diesel",
-    gearbox: "automatic",
-    price: 5000,
-    manufacturing_date: "2010",
-    region: "Varna",
-    hp: 300,
-    mileage: 150000,
-    img: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960",
-  },
-  {
-    id: 4,
-    title: "Golf 1.9 tdi",
-    type: "Hatchback",
-    make: "VW",
-    model: "Golf",
-    fuel: "Diesel",
-    gearbox: "automatic",
-    price: 5000,
-    manufacturing_date: "2010",
-    region: "Varna",
-    hp: 300,
-    mileage: 150000,
-    img: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960",
-  },
-  {
-    id: 5,
-    title: "Golf 1.9 tdi",
-    type: "Hatchback",
-    make: "VW",
-    model: "Golf",
-    fuel: "Diesel",
-    gearbox: "automatic",
-    price: 5000,
-    manufacturing_date: "2010",
-    region: "Varna",
-    hp: 300,
-    mileage: 150000,
-    img: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960",
-  },
-  {
-    id: 6,
-    title: "Golf 1.9 tdi",
-    type: "Hatchback",
-    make: "VW",
-    model: "Golf",
-    fuel: "Diesel",
-    gearbox: "automatic",
-    price: 5000,
-    manufacturing_date: "2010",
-    region: "Varna",
-    hp: 300,
-    mileage: 150000,
-    img: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960",
-  },
-];

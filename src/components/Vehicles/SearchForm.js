@@ -1,29 +1,21 @@
-import { useState, useEffect } from "react";
-
 import styles from "./SearchForm.module.css";
+import { vehicleTypes, fuel, gearbox } from "../../util.js";
+
+import { useState, useEffect } from "react";
 import { Fragment } from "react";
+
 import FilterPopup from "./FilterPopup";
-
-import useRequest from "../../hooks/useRequest";
-
-const endPoints = {
-  makesModels: "/data/vehicles",
-  regions: "/data/regions",
-};
+import useData from "../../hooks/useData";
 
 const SearchForm = ({ filterState, filterDispatch }) => {
-  const request = useRequest();
+  const { getMakesModels, getRegions } = useData();
   useEffect(() => {
     async function fetchData() {
-      const makesModels = Object.values(
-        await request.get(endPoints.makesModels)
-      );
+      const makesModels = await getMakesModels();
 
       setMakesModels(makesModels);
 
-      const regions = Object.values(await request.get(endPoints.regions)).map(
-        (r) => r.name
-      );
+      const regions = (await getRegions()).map((r) => r.name);
       setRegions(regions);
     }
 
@@ -37,8 +29,6 @@ const SearchForm = ({ filterState, filterDispatch }) => {
     if (!selectedMakeModels) {
       return;
     }
-    console.log(selectedMakeModels);
-    console.log(filterState);
     setModels(selectedMakeModels.models);
   }, [filterState.make]);
 
@@ -48,21 +38,11 @@ const SearchForm = ({ filterState, filterDispatch }) => {
   const [regions, setRegions] = useState([]);
 
   const popupCollectionItems = {
-    Type: [
-      "Van",
-      "SUV",
-      "Cabrio",
-      "Wagon",
-      "Coupe",
-      "Minivan",
-      "Sedan",
-      "Hatchback",
-      "Pickup",
-    ],
+    Type: vehicleTypes,
     Make: makesModels.map((v) => v.brand),
     Model: models,
-    Fuel: ["Petrol", "Diesel", "Hybrid", "Electric"],
-    Gearbox: ["Manual", "Automatic"],
+    Fuel: fuel,
+    Gearbox: gearbox,
     Region: regions,
   };
 

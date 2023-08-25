@@ -1,0 +1,50 @@
+.slider-container {
+  display: flex;
+  width: 60%;
+  margin: 3.6rem auto;
+  max-height: 30rem;
+  position: relative;
+}
+
+.image {
+  display: flex;
+  height: auto;
+  max-width: 60rem;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.left-swap,
+.right-swap {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  opacity: 50%;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+}
+
+.left-swap {
+  left: 0;
+  top: 50%;
+
+  transform: translate(-100%, -50%);
+}
+
+.right-swap {
+  right: 0;
+  top: 50%;
+
+  transform: translate(100%, -50%);
+}
+
+.left-swap:hover,
+.right-swap:hover {
+  opacity: 100%;
+}
