@@ -1,23 +1,21 @@
 import { NavLink } from "react-router-dom";
 
 import styles from "./Navbar.module.css";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 
 const Navbar = (props) => {
-  const authContext = useContext(AuthContext);
+  const authContext = useAuthContext();
 
   const userLinks = (
     <>
-      <NavLink className={`btn ${styles["nav-link"]}`}>
-        Hello {authContext.getUserData()?.username}
-      </NavLink>
-
       <NavLink className={`btn ${styles["nav-link"]}`} to="/create">
         Create post
       </NavLink>
       <NavLink className={`btn ${styles["nav-link"]}`} to="/my-posts">
         My posts
+      </NavLink>
+      <NavLink className={`btn ${styles["nav-link"]}`} to="/logout">
+        Logout
       </NavLink>
     </>
   );

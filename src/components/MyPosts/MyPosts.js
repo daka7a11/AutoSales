@@ -1,34 +1,42 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useData from "../../hooks/useData";
+import { useAuthContext } from "../../context/AuthContext";
 
 const MyPosts = () => {
-  const authContext = useContext(AuthContext);
+  const authContext = useAuthContext();
 
   const { getAdvertisements } = useData();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userId = authContext.getUserData()?._id;
+  const userData = authContext.getUserData();
 
-    if (!userId) {
+  useEffect(() => {
+    console.log(userData);
+
+    if (userData === undefined) {
+      console.log("UserDataInEffect");
+
+      console.log(userData);
+      return;
+    }
+
+    if (userData === null) {
       navigate("/login");
       return;
     }
 
-    async function fetchData() {}
+    async function fetchData() {
+      getAdvertisements().then((data) =>
+        console.log(
+          data.filter((x) => x._ownerId === authContext.getUserData()._id)
+        )
+      );
+    }
 
     fetchData();
-  }, []);
-
-  console.log(authContext.getUserData());
-  getAdvertisements().then((data) =>
-    console.log(
-      data.filter((x) => x._ownerId === authContext.getUserData()._id)
-    )
-  );
+  }, [userData]);
 
   return (
     <div className={`page-container`}>

@@ -1,10 +1,6 @@
-import useUser from "./useUser";
-
 const baseUrl = "http://localhost:3030";
 
-const useRequest = () => {
-  const { getUserData, clearUserData } = useUser();
-
+const useRequest = (getUserData, clearUserData) => {
   async function request(method, url, data) {
     const options = {
       method,
@@ -17,6 +13,7 @@ const useRequest = () => {
     }
 
     const user = getUserData();
+
     if (user) {
       const token = user.accessToken;
       options.headers["X-Authorization"] = token;

@@ -10,24 +10,26 @@ import CreatePost from "./components/Create/CreatePost";
 import Details from "./components/Details/Details";
 import Register from "./components/Auth/Register";
 import MyPosts from "./components/MyPosts/MyPosts";
+import Logout from "./components/Auth/Logout";
 
 function App() {
   return (
-    <Fragment>
-      <AuthProvider>
+    <AuthProvider>
+      <Fragment>
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/vehicles" element={<Vehicles />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/create" element={<CreatePost />} />
           <Route path="/my-posts" element={<MyPosts />} />
           <Route path="/details/:id" element={<Details />} />
         </Routes>
         <Footer></Footer>
-      </AuthProvider>
-    </Fragment>
+      </Fragment>
+    </AuthProvider>
   );
 }
 

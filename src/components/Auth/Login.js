@@ -1,12 +1,18 @@
 import styles from "../UI/Form.module.css";
 import authStyles from "./Auth.module.css";
 
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useEffect } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const authContext = useContext(AuthContext);
+  useEffect(() => {
+    return () => {
+      authContext.clearError();
+    };
+  }, []);
+
+  const authContext = useAuthContext();
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
@@ -28,13 +34,13 @@ const Login = () => {
 
   const errorSection = (
     <div>
-      <p style={{ color: "red", fontSize: 16 }}>{authContext.error}</p>
+      <p className={styles["invalid-message"]}>{authContext.error}</p>
     </div>
   );
 
   return (
     <div className={authStyles["form-container"]}>
-      <div className={styles["page-title"]}>
+      <div className={`page-title`}>
         <h2>Login</h2>
       </div>
       <form onSubmit={submitHandler} className={styles["form"]}>

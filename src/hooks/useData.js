@@ -1,4 +1,5 @@
 import useRequest from "./useRequest";
+import { useAuthContext } from "../context/AuthContext";
 
 const endPoints = {
   makesModels: "/data/vehicles",
@@ -8,7 +9,8 @@ const endPoints = {
 };
 
 const useData = () => {
-  const request = useRequest();
+  const { getUserData, clearUseData } = useAuthContext();
+  const request = useRequest(getUserData, clearUseData);
 
   const getMakesModels = () => {
     return request

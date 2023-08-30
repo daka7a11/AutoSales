@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import useRequest from "../hooks/useRequest";
-import useUser from "../hooks/useUser";
 
 export const AuthContext = createContext();
+
+const initialUser = null;
 
 const endpoints = {
   login: "/users/login",
@@ -14,8 +15,29 @@ const endpoints = {
 export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
-  const { getUserData, setUserData, clearUserData } = useUser();
-  const request = useRequest();
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      return;
+    }
+    setUser(initialUser);
+  }, []);
+  const getUserData = () => {
+    return user;
+  };
+  const setUserData = (user) => {
+    setUser(user);
+    sessionStorage.setItem("user", JSON.stringify(user));
+  };
+  const clearUserData = () => {
+    setUser(initialUser);
+    sessionStorage.removeItem("user");
+  };
+
+  const request = useRequest(getUserData, clearUserData);
 
   const login = async (email, pass) => {
     try {
@@ -67,4 +89,12 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuthContext must be used within a AuthContextProvider");
+  }
+  return context;
 };

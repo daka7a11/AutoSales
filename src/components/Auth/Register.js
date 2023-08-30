@@ -1,8 +1,8 @@
 import styles from "../UI/Form.module.css";
 import authStyles from "./Auth.module.css";
 
-import { Fragment, useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { Fragment, useEffect, useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 
@@ -10,7 +10,13 @@ const emptyValidation = (value) => value.trim() !== "";
 const emailValidation = (value) => value.includes("@");
 
 const Register = ({}) => {
-  const authContext = useContext(AuthContext);
+  useEffect(() => {
+    return () => {
+      authContext.clearError();
+    };
+  }, []);
+
+  const authContext = useAuthContext();
   const navigate = useNavigate();
   const {
     value: enteredFirstName,
@@ -82,7 +88,7 @@ const Register = ({}) => {
     passwordIsValid &&
     confirmPasswordIsValid;
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (!formIsValid) {
@@ -119,8 +125,12 @@ const Register = ({}) => {
       password: enteredPassword,
     };
 
-    authContext.register(userData);
-    navigate("/");
+    try {
+      await authContext.register(userData);
+      navigate("/");
+    } catch (error) {
+      return;
+    }
   };
 
   const errorSection = (
@@ -136,7 +146,7 @@ const Register = ({}) => {
 
   return (
     <div className={authStyles["form-container"]}>
-      <div className={styles["page-title"]}>
+      <div className={`page-title`}>
         <h2>Register</h2>
       </div>
       <form onSubmit={submitHandler} className={styles["form"]}>
