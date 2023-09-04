@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
 import useRequest from "../hooks/useRequest";
 
 export const AuthContext = createContext();

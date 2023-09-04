@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useData from "../../hooks/useData";
 import styles from "./Details.module.css";
 import ImageSlider from "../UI/ImageSlider";
+import ImagePopup from "../UI/ImagePopup";
 
 const Details = () => {
   const [vehicle, setVehicle] = useState({});
@@ -24,7 +25,9 @@ const Details = () => {
       <div className={styles["title-container"]}>
         <h2>{vehicle.title}</h2>
       </div>
-      <ImageSlider images={vehicle.images} />
+      <div className={styles["image-slider"]}>
+        <ImageSlider images={vehicle.images} />
+      </div>
       <section className={styles["specifications"]}>
         <div className={styles["specification"]}>
           <span>Make:</span>

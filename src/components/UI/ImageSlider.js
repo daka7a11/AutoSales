@@ -1,8 +1,10 @@
 import { Fragment, useState } from "react";
 import styles from "./ImageSlider.module.css";
+import ImagePopup from "./ImagePopup";
 
 const ImageSlider = ({ images }) => {
   const [imageIndex, setImageIndex] = useState(0);
+  const [imagePopup, setImagePopup] = useState(false);
 
   const prevImageHandler = () => {
     if (imageIndex - 1 < 0) {
@@ -24,6 +26,10 @@ const ImageSlider = ({ images }) => {
     return;
   }
 
+  const closeImagePopup = () => {
+    setImagePopup(false);
+  };
+
   return (
     <Fragment>
       <div className={styles["slider-container"]}>
@@ -32,13 +38,29 @@ const ImageSlider = ({ images }) => {
           class={styles["left-swap"]}
           name="chevron-back-circle-outline"
         ></ion-icon>
-        <img className={styles["image"]} src={images[imageIndex]} alt="" />
+        <img
+          onClick={() => {
+            setImagePopup(true);
+          }}
+          className={styles["image"]}
+          src={images[imageIndex]}
+          alt=""
+        />
         <ion-icon
           onClick={nextImageHandler}
           class={styles["right-swap"]}
           name="chevron-forward-circle-outline"
         ></ion-icon>
       </div>
+      <p>
+        {imageIndex + 1}/{images.length}
+      </p>
+      {imagePopup && (
+        <ImagePopup
+          imageSrc={images[imageIndex]}
+          closeImagePopup={closeImagePopup}
+        />
+      )}
     </Fragment>
   );
 };

@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useData from "../../hooks/useData";
 import { useAuthContext } from "../../context/AuthContext";
+import VehiclesList from "../Vehicles/VehiclesList";
 
 const MyPosts = () => {
   const authContext = useAuthContext();
@@ -12,13 +13,10 @@ const MyPosts = () => {
 
   const userData = authContext.getUserData();
 
+  const [myPosts, setMyPosts] = useState([]);
+
   useEffect(() => {
-    console.log(userData);
-
     if (userData === undefined) {
-      console.log("UserDataInEffect");
-
-      console.log(userData);
       return;
     }
 
@@ -28,11 +26,12 @@ const MyPosts = () => {
     }
 
     async function fetchData() {
-      getAdvertisements().then((data) =>
-        console.log(
-          data.filter((x) => x._ownerId === authContext.getUserData()._id)
-        )
-      );
+      getAdvertisements().then((data) => {
+        const fetchedData = data.filter(
+          (x) => x._ownerId === authContext.getUserData()._id
+        );
+        setMyPosts(fetchedData);
+      });
     }
 
     fetchData();
@@ -43,6 +42,7 @@ const MyPosts = () => {
       <div className={`page-title`}>
         <h2>My posts</h2>
       </div>
+      <VehiclesList vehicles={myPosts} />
     </div>
   );
 };
