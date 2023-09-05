@@ -198,6 +198,83 @@ const Vehicles = () => {
     initialFilterReducerObj
   );
 
+  const applyAllFilters = (vehicles) => {
+    let filteredVehicles = [...vehicles];
+    filteredVehicles = filteredVehicles.filter((x) =>
+      filterState.type ? filterState.type === x.type : true
+    );
+
+    filteredVehicles = filteredVehicles.filter((x) =>
+      filterState.make ? filterState.make === x.make : true
+    );
+
+    filteredVehicles = filteredVehicles.filter((x) =>
+      filterState.fuel ? filterState.fuel === x.fuel : true
+    );
+
+    filteredVehicles = filteredVehicles.filter((x) =>
+      filterState.gearbox ? filterState.gearbox === x.gearbox : true
+    );
+
+    if (filterState.price.from || filterState.price.to) {
+      if (filterState.price.from) {
+        if (filterState.price.to) {
+          filteredVehicles = filteredVehicles.filter(
+            (x) =>
+              x.price >= filterState.price.from &&
+              x.price <= filterState.price.to
+          );
+        } else {
+          filteredVehicles = filteredVehicles.filter(
+            (x) => x.price >= filterState.price.from
+          );
+        }
+      }
+
+      if (filterState.price.to && !filterState.price.from) {
+        filteredVehicles = filteredVehicles.filter(
+          (x) => x.price <= filterState.price.to
+        );
+      }
+    }
+
+    filteredVehicles = filteredVehicles.filter(
+      (x) =>
+        x.manufacturing_date >= filterState.year.from.getFullYear() &&
+        x.manufacturing_date <= filterState.year.to.getFullYear()
+    );
+
+    filteredVehicles = filteredVehicles.filter((x) =>
+      filterState.region ? filterState.region === x.region : true
+    );
+
+    if (filterState.power.from || filterState.power.to) {
+      if (filterState.power.from) {
+        if (filterState.power.to) {
+          filteredVehicles = filteredVehicles.filter(
+            (x) =>
+              x.hp >= filterState.power.from && x.hp <= filterState.power.to
+          );
+        } else {
+          filteredVehicles = filteredVehicles.filter(
+            (x) => x.hp >= filterState.power.from
+          );
+        }
+      }
+
+      if (filterState.power.to && !filterState.power.from) {
+        filteredVehicles = filteredVehicles.filter(
+          (x) => x.hp <= filterState.power.to
+        );
+      }
+    }
+
+    return filteredVehicles;
+  };
+
+  console.log(filterState);
+  console.log(advertisements);
+
   return (
     <div className={`${styles["vehicles-container"]} page-container`}>
       <h2 className={styles["heading"]}>Vehicles</h2>
@@ -206,7 +283,7 @@ const Vehicles = () => {
         filterState={filterState}
         filterDispatch={filterDispatch}
       />
-      <VehiclesList vehicles={advertisements} />
+      <VehiclesList vehicles={applyAllFilters(advertisements)} />
     </div>
   );
 };
