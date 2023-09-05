@@ -51,10 +51,10 @@ const ImageSlider = ({ images }) => {
           class={styles["right-swap"]}
           name="chevron-forward-circle-outline"
         ></ion-icon>
+        <p className={styles["total-images"]}>
+          {imageIndex + 1}/{images.length}
+        </p>
       </div>
-      <p>
-        {imageIndex + 1}/{images.length}
-      </p>
       {imagePopup && (
         <ImagePopup
           imageSrc={images[imageIndex]}

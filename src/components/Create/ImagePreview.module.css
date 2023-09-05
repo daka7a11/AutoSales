@@ -7,4 +7,11 @@
   height: 100%;
 
   object-fit: cover;
+
+  transform: all 0.5s;
+}
+
+.img-preview:hover {
+  cursor: pointer;
+  opacity: 25%;
 }

@@ -124,3 +124,7 @@ a:visited {
   color: #333;
   text-transform: uppercase;
 }
+
+input[type="file"] {
+  color: transparent;
+}

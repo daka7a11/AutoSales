@@ -22,3 +22,17 @@
   max-width: 80%;
   border-radius: 7px;
 }
+.close-popup {
+  position: absolute;
+  height: 6rem;
+  width: 6rem;
+  margin: 2.4rem;
+
+  top: 0;
+  right: 0;
+  color: rgb(255, 194, 120);
+}
+
+.close-popup:hover {
+  cursor: pointer;
+}

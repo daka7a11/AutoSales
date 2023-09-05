@@ -155,8 +155,6 @@ const CreatePost = () => {
   const imagesChangeHandler = (e) => {
     const files = Object.values(e.target.files);
 
-    setImages([]);
-
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
@@ -167,14 +165,6 @@ const CreatePost = () => {
 
       reader.readAsDataURL(file);
     }
-
-    // const reader = new FileReader();
-    // reader.onload = () => {
-    //   setImages((state) => [...state, reader.result]);
-    // };
-    // reader.readAsDataURL(files[0]);
-
-    // setImages((state) => [...state, reader.result]);
   };
 
   const isFormValid =
@@ -218,6 +208,10 @@ const CreatePost = () => {
     await createAdvertisement(data);
 
     navigate("/");
+  };
+
+  const imagePreviewClickHandler = (url) => {
+    setImages(images.filter((x) => x !== url));
   };
 
   return (
@@ -423,6 +417,7 @@ const CreatePost = () => {
                 id="images"
                 name="images"
                 type="file"
+                title=" "
                 multiple
               />
             </div>
@@ -449,7 +444,11 @@ const CreatePost = () => {
         {images.length > 0 && (
           <div className={createStyles["img-preview-container"]}>
             {images.map((i) => (
-              <ImagePreview key={i} url={i} />
+              <ImagePreview
+                key={i}
+                url={i}
+                imagePreviewClickHandler={imagePreviewClickHandler}
+              />
             ))}
           </div>
         )}
