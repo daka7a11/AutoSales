@@ -38,8 +38,32 @@
 
 .price {
   margin-top: 2.4rem;
-  grid-column: span 2;
-  justify-self: end;
   font-size: 2.6rem;
   text-shadow: 2px 2px 4px rgba(255, 216, 168, 0.75);
+}
+
+.controls-price-container {
+  margin-top: 1.6rem;
+  grid-column: 2 span;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+.control {
+  width: 4.5rem;
+  height: 4.5rem;
+
+  margin: 0 1.2rem;
+
+  transition: all 0.3s;
+}
+
+.control:hover {
+  cursor: pointer;
+  color: rgb(255, 140, 0);
+}
+
+.additional {
+  align-self: center;
 }

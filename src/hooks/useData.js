@@ -6,6 +6,7 @@ const endPoints = {
   regions: "/data/regions",
   create: "/data/advertisements",
   advertisements: "/data/advertisements",
+  likes: "/data/likes",
 };
 
 const useData = () => {
@@ -34,12 +35,31 @@ const useData = () => {
     return request.get(endPoints.advertisements + "/" + id);
   };
 
+  const likeAdvertisement = (vehicleId) => {
+    const data = {
+      vehicleId,
+    };
+    return request.post(endPoints.likes, data);
+  };
+
+  const getAdvertisementLikes = (id) => {
+    const encodedUrl = encodeURIComponent(`vehicleId="${id}"`);
+    return request.get(endPoints.likes + "?where=" + encodedUrl);
+  };
+
+  const deleteLike = (likeId) => {
+    return request.del(endPoints.likes + "/" + likeId);
+  };
+
   return {
     getMakesModels,
     getRegions,
     createAdvertisement,
     getAdvertisements,
     getAdvertisement,
+    likeAdvertisement,
+    getAdvertisementLikes,
+    deleteLike,
   };
 };
 

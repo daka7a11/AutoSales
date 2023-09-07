@@ -156,7 +156,7 @@ const filterReducer = (state, action) => {
         ...state,
         year: {
           from: new Date("1950"),
-          to: new Date("2023"),
+          to: new Date("2024"),
         },
       };
     }
@@ -238,10 +238,13 @@ const Vehicles = () => {
       }
     }
 
+    console.log(filteredVehicles);
+
     filteredVehicles = filteredVehicles.filter(
       (x) =>
-        x.manufacturing_date >= filterState.year.from.getFullYear() &&
-        x.manufacturing_date <= filterState.year.to.getFullYear()
+        x.manufacturing_date.split("-")[0] >=
+          filterState.year.from.getFullYear() &&
+        x.manufacturing_date.split("-")[0] <= filterState.year.to.getFullYear()
     );
 
     filteredVehicles = filteredVehicles.filter((x) =>
@@ -271,9 +274,6 @@ const Vehicles = () => {
 
     return filteredVehicles;
   };
-
-  console.log(filterState);
-  console.log(advertisements);
 
   return (
     <div className={`${styles["vehicles-container"]} page-container`}>

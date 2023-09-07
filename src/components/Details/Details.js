@@ -1,15 +1,30 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useData from "../../hooks/useData";
 import styles from "./Details.module.css";
 import ImageSlider from "../UI/ImageSlider";
-import ImagePopup from "../UI/ImagePopup";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Details = () => {
   const [vehicle, setVehicle] = useState({});
+  const [likes, setLikes] = useState([]);
+
+  const authContext = useAuthContext();
+
+  const { likeAdvertisement, getAdvertisementLikes, deleteLike } = useData();
 
   const { id } = useParams();
   const { getAdvertisement } = useData();
+
+  const user = authContext.getUserData();
+
+  const isAuth = Boolean(user);
+
+  const isOwner = isAuth && user?._id === vehicle._ownerId;
+
+  const [isLiked, setIsLiked] = useState();
+
+  console.log(isLiked);
 
   useEffect(() => {
     async function fetchData() {
@@ -19,6 +34,69 @@ const Details = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const likes = await getAdvertisementLikes(id);
+      setLikes(likes);
+      setIsLiked(isAuth && likes.some((x) => x._ownerId === user._id));
+    }
+
+    fetchData();
+  }, [isLiked]);
+
+  const likeClickHandler = async () => {
+    if (isLiked) {
+      return;
+    }
+    await likeAdvertisement(id);
+    setIsLiked(true);
+  };
+
+  const dislikeClickHandler = async () => {
+    const like = likes.find((x) => x._ownerId === user._id);
+    await deleteLike(like._id);
+    setIsLiked(false);
+  };
+
+  const eidtClickHandler = () => {
+    console.log("edit");
+  };
+
+  const deleteClickHandler = () => {
+    console.log("delete");
+  };
+
+  const userControls = isLiked ? (
+    <ion-icon
+      onClick={dislikeClickHandler}
+      class={styles["control"]}
+      name="heart-dislike-outline"
+      title="Dislike"
+    ></ion-icon>
+  ) : (
+    <ion-icon
+      onClick={likeClickHandler}
+      class={styles["control"]}
+      name="heart-outline"
+      title="Like"
+    ></ion-icon>
+  );
+
+  const ownerControls = (
+    <Fragment>
+      <ion-icon
+        onClick={eidtClickHandler}
+        class={styles["control"]}
+        name="create-outline"
+      ></ion-icon>
+      <ion-icon
+        onClick={deleteClickHandler}
+        class={styles["control"]}
+        name="trash-outline"
+      ></ion-icon>
+    </Fragment>
+  );
 
   const vehicleView = (
     <div className={styles["details-container"]}>
@@ -71,10 +149,27 @@ const Details = () => {
             {vehicle.mileage}
           </span>
         </div>
-        <div className={`${styles["specification"]} ${styles["price"]}`}>
-          <span className={styles["specification-detail"]}>
-            ${vehicle.price}
-          </span>
+        <div
+          className={`${styles["specification"]} ${styles["controls-price-container"]}`}
+        >
+          <div className={`${styles["controls"]} ${styles["additional"]}`}>
+            {isAuth ? (isOwner ? ownerControls : userControls) : ""}
+          </div>
+
+          <div className={`${styles["additional"]}`}>
+            Likes:{" "}
+            <span className={styles["specification-detail"]}>
+              {likes.length}
+            </span>
+          </div>
+
+          <div className={`${styles["additional"]}`}>
+            <span
+              className={`${styles["specification-detail"]} ${styles["price"]}`}
+            >
+              ${vehicle.price}
+            </span>
+          </div>
         </div>
         <div className={`${styles["specification"]} ${styles["description"]}`}>
           <span className={styles["specification-detail"]}>
