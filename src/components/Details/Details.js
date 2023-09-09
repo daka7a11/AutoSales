@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import useData from "../../hooks/useData";
 import styles from "./Details.module.css";
@@ -11,10 +11,17 @@ const Details = () => {
 
   const authContext = useAuthContext();
 
-  const { likeAdvertisement, getAdvertisementLikes, deleteLike } = useData();
+  const {
+    getAdvertisement,
+    deleteAdvertisement,
+    likeAdvertisement,
+    getAdvertisementLikes,
+    deleteLike,
+  } = useData();
 
   const { id } = useParams();
-  const { getAdvertisement } = useData();
+
+  const navigate = useNavigate();
 
   const user = authContext.getUserData();
 
@@ -63,7 +70,12 @@ const Details = () => {
     console.log("edit");
   };
 
-  const deleteClickHandler = () => {
+  const deleteClickHandler = async () => {
+    if (!isOwner) {
+      return;
+    }
+    await deleteAdvertisement(id);
+    navigate("/");
     console.log("delete");
   };
 

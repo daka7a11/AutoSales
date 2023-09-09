@@ -35,6 +35,10 @@ const useData = () => {
     return request.get(endPoints.advertisements + "/" + id);
   };
 
+  const deleteAdvertisement = (id) => {
+    return request.del(endPoints.advertisements + "/" + id);
+  };
+
   const likeAdvertisement = (vehicleId) => {
     const data = {
       vehicleId,
@@ -57,6 +61,7 @@ const useData = () => {
     createAdvertisement,
     getAdvertisements,
     getAdvertisement,
+    deleteAdvertisement,
     likeAdvertisement,
     getAdvertisementLikes,
     deleteLike,
