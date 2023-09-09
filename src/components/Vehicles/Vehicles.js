@@ -238,8 +238,6 @@ const Vehicles = () => {
       }
     }
 
-    console.log(filteredVehicles);
-
     filteredVehicles = filteredVehicles.filter(
       (x) =>
         x.manufacturing_date.split("-")[0] >=

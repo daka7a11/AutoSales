@@ -11,6 +11,7 @@ import Details from "./components/Details/Details";
 import Register from "./components/Auth/Register";
 import MyPosts from "./components/MyPosts/MyPosts";
 import Logout from "./components/Auth/Logout";
+import Edit from "./components/Edit/Edit";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/create" element={<CreatePost />} />
           <Route path="/my-posts" element={<MyPosts />} />
           <Route path="/details/:id" element={<Details />} />
+          <Route path="/edit/:id" element={<Edit />} />
         </Routes>
         <Footer></Footer>
       </Fragment>

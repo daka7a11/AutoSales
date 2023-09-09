@@ -28,6 +28,7 @@ const useInput = (validateValue) => {
     inputBlurHandler,
     setIsTouched,
     reset,
+    setValue: setEnteredValue,
   };
 };
 

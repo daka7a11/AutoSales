@@ -5,6 +5,7 @@ const endPoints = {
   makesModels: "/data/vehicles",
   regions: "/data/regions",
   create: "/data/advertisements",
+  edit: "/data/advertisements/",
   advertisements: "/data/advertisements",
   likes: "/data/likes",
 };
@@ -25,6 +26,10 @@ const useData = () => {
 
   const createAdvertisement = (data) => {
     return request.post(endPoints.create, data);
+  };
+
+  const editAdvertisement = (id, data) => {
+    return request.put(endPoints.edit + id, data);
   };
 
   const getAdvertisements = () => {
@@ -59,6 +64,7 @@ const useData = () => {
     getMakesModels,
     getRegions,
     createAdvertisement,
+    editAdvertisement,
     getAdvertisements,
     getAdvertisement,
     deleteAdvertisement,

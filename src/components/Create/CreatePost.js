@@ -9,14 +9,15 @@ import { useNavigate } from "react-router-dom";
 
 const requiredMsg = <p className={styles["invalid-message"]}>Required!</p>;
 
-const CreatePost = () => {
+const CreatePost = ({ vehicle }) => {
   const [images, setImages] = useState([]);
   const [makesModels, setMakesModels] = useState([]);
   const [regions, setRegions] = useState([]);
   const [models, setModels] = useState([]);
 
   const navigate = useNavigate();
-  const { getMakesModels, getRegions, createAdvertisement } = useData();
+  const { getMakesModels, getRegions, createAdvertisement, editAdvertisement } =
+    useData();
 
   const {
     value: enteredTitle,
@@ -25,6 +26,7 @@ const CreatePost = () => {
     valueChangeHandler: titleChangeHandler,
     inputBlurHandler: titleBlurHandler,
     reset: resetTitle,
+    setValue: setTitle,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -34,6 +36,7 @@ const CreatePost = () => {
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
     reset: resetType,
+    setValue: setType,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -43,6 +46,7 @@ const CreatePost = () => {
     valueChangeHandler: makeChangeHandler,
     inputBlurHandler: makeBlurHandler,
     reset: resetMake,
+    setValue: setMake,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -52,6 +56,7 @@ const CreatePost = () => {
     valueChangeHandler: modelChangeHandler,
     inputBlurHandler: modelBlurHandler,
     reset: resetModel,
+    setValue: setModel,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -61,6 +66,7 @@ const CreatePost = () => {
     valueChangeHandler: fuelChangeHandler,
     inputBlurHandler: fuelBlurHandler,
     reset: resetFuel,
+    setValue: setFuel,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -70,6 +76,7 @@ const CreatePost = () => {
     valueChangeHandler: gearboxChangeHandler,
     inputBlurHandler: gearboxBlurHandler,
     reset: resetGearbox,
+    setValue: setGearbox,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -79,6 +86,7 @@ const CreatePost = () => {
     valueChangeHandler: priceChangeHandler,
     inputBlurHandler: priceBlurHandler,
     reset: resetPrice,
+    setValue: setPrice,
   } = useInput((x) => x.trim() !== "" && Number(x) > 0);
 
   const {
@@ -88,6 +96,7 @@ const CreatePost = () => {
     valueChangeHandler: manufacturingDateChangeHandler,
     inputBlurHandler: manufacturingDateBlurHandler,
     reset: resetManufacturingDate,
+    setValue: setManufacturingDate,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -97,6 +106,7 @@ const CreatePost = () => {
     valueChangeHandler: regionChangeHandler,
     inputBlurHandler: regionBlurHandler,
     reset: resetRegion,
+    setValue: setRegion,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -106,6 +116,7 @@ const CreatePost = () => {
     valueChangeHandler: horsePowerChangeHandler,
     inputBlurHandler: horsePowerBlurHandler,
     reset: resetHorsePower,
+    setValue: setHorsePower,
   } = useInput((x) => x.trim() !== "" && Number(x) > 0);
 
   const {
@@ -115,6 +126,7 @@ const CreatePost = () => {
     valueChangeHandler: mileageChangeHandler,
     inputBlurHandler: mileageBlurHandler,
     reset: resetMileage,
+    setValue: setMileage,
   } = useInput((x) => x.trim() !== "" && Number(x) > 0);
 
   const {
@@ -124,6 +136,7 @@ const CreatePost = () => {
     valueChangeHandler: descriptionChangeHandler,
     inputBlurHandler: descriptionBlurHandler,
     reset: resetDescription,
+    setValue: setDescription,
   } = useInput((x) => x.trim() !== "");
 
   useEffect(() => {
@@ -151,6 +164,26 @@ const CreatePost = () => {
     }
     setModels(selectedMakeModels.models);
   }, [selectedMake]);
+
+  useEffect(() => {
+    if (!vehicle) {
+      return;
+    }
+
+    setTitle(vehicle.title);
+    setType(vehicle.type);
+    setMake(vehicle.make);
+    setModel(vehicle.model);
+    setFuel(vehicle.fuel);
+    setGearbox(vehicle.gearbox);
+    setPrice(vehicle.price);
+    setManufacturingDate(vehicle.manufacturing_date);
+    setRegion(vehicle.region);
+    setHorsePower(vehicle.hp);
+    setMileage(vehicle.mileage);
+    setDescription(vehicle.description);
+    setImages(vehicle.images);
+  }, [vehicle]);
 
   const imagesChangeHandler = (e) => {
     const files = Object.values(e.target.files);
@@ -183,7 +216,7 @@ const CreatePost = () => {
 
   const invalidFormClass = !isFormValid && styles["invalid-form"];
 
-  const createSubmitHandler = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (!isFormValid) {
@@ -205,9 +238,15 @@ const CreatePost = () => {
       description: enteredDescription,
     };
 
-    await createAdvertisement(data);
+    let createdVehicle = null;
 
-    navigate("/");
+    if (vehicle) {
+      createdVehicle = await editAdvertisement(vehicle._id, data);
+    } else {
+      createdVehicle = await createAdvertisement(data);
+    }
+
+    navigate("/details/" + createdVehicle._id);
   };
 
   const imagePreviewClickHandler = (url) => {
@@ -217,9 +256,9 @@ const CreatePost = () => {
   return (
     <div className={`page-container`}>
       <div className={`page-title`}>
-        <h2>Create post</h2>
+        <h2>{vehicle ? "Edit post" : "Create post"}</h2>
       </div>
-      <form onSubmit={createSubmitHandler} className={styles["form"]}>
+      <form onSubmit={submitHandler} className={styles["form"]}>
         <div className={createStyles["form-container"]}>
           <div className={createStyles["form-col"]}>
             <div className={styles["form-wrapper"]}>
@@ -458,7 +497,7 @@ const CreatePost = () => {
             className={`btn ${styles["submit-btn"]} ${invalidFormClass}`}
             type="submit"
           >
-            Create
+            {vehicle ? "Edit" : "Create"}
           </button>
         </div>
       </form>

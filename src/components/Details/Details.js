@@ -31,8 +31,6 @@ const Details = () => {
 
   const [isLiked, setIsLiked] = useState();
 
-  console.log(isLiked);
-
   useEffect(() => {
     async function fetchData() {
       const fetchedVehicle = await getAdvertisement(id);
@@ -67,7 +65,7 @@ const Details = () => {
   };
 
   const eidtClickHandler = () => {
-    console.log("edit");
+    navigate("/edit/" + id);
   };
 
   const deleteClickHandler = async () => {
@@ -76,7 +74,6 @@ const Details = () => {
     }
     await deleteAdvertisement(id);
     navigate("/");
-    console.log("delete");
   };
 
   const userControls = isLiked ? (
