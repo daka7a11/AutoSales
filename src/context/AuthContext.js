@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }) => {
         password: pass,
       });
       setUserData(user);
+      return user;
     } catch (error) {
       setError(error.message);
       throw error;
@@ -58,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         userData
       );
       setUserData(user);
+      return user;
     } catch (error) {
       setError(error.message);
       throw error;

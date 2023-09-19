@@ -4,6 +4,7 @@ import authStyles from "./Auth.module.css";
 import { useEffect } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   useEffect(() => {
@@ -24,8 +25,8 @@ const Login = () => {
     }
 
     try {
-      await authContext.login(email, password);
-
+      const user = await authContext.login(email, password);
+      toast.warn(`Welcome ${user.username || user.firstName}!`);
       navigate("/");
     } catch (err) {
       return;

@@ -6,6 +6,7 @@ import { vehicleTypes, fuel, gearbox } from "../../util.js";
 import useInput from "../../hooks/useInput";
 import useData from "../../hooks/useData";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const requiredMsg = <p className={styles["invalid-message"]}>Required!</p>;
 
@@ -242,8 +243,10 @@ const CreatePost = ({ vehicle }) => {
 
     if (vehicle) {
       createdVehicle = await editAdvertisement(vehicle._id, data);
+      toast.warn(`Post edited!`);
     } else {
       createdVehicle = await createAdvertisement(data);
+      toast.warn(`Post created!`);
     }
 
     navigate("/details/" + createdVehicle._id);

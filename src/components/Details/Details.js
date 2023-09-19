@@ -4,6 +4,8 @@ import useData from "../../hooks/useData";
 import styles from "./Details.module.css";
 import ImageSlider from "../UI/ImageSlider";
 import { useAuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
+import DeleteModal from "./DeleteModal";
 
 const Details = () => {
   const [vehicle, setVehicle] = useState({});
@@ -31,6 +33,8 @@ const Details = () => {
 
   const [isLiked, setIsLiked] = useState();
 
+  const [deleteModal, setDeleteModal] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       const fetchedVehicle = await getAdvertisement(id);
@@ -55,12 +59,14 @@ const Details = () => {
       return;
     }
     await likeAdvertisement(id);
+    toast.warn(`Liked!`);
     setIsLiked(true);
   };
 
   const dislikeClickHandler = async () => {
     const like = likes.find((x) => x._ownerId === user._id);
     await deleteLike(like._id);
+    toast.warn(`Disliked!`);
     setIsLiked(false);
   };
 
@@ -68,11 +74,13 @@ const Details = () => {
     navigate("/edit/" + id);
   };
 
-  const deleteClickHandler = async () => {
+  const deleteHandler = async () => {
     if (!isOwner) {
       return;
     }
+
     await deleteAdvertisement(id);
+    toast.warn(`Post deleted!`);
     navigate("/");
   };
 
@@ -100,7 +108,7 @@ const Details = () => {
         name="create-outline"
       ></ion-icon>
       <ion-icon
-        onClick={deleteClickHandler}
+        onClick={() => setDeleteModal(true)}
         class={styles["control"]}
         name="trash-outline"
       ></ion-icon>
@@ -186,6 +194,12 @@ const Details = () => {
           </span>
         </div>
       </section>
+      {deleteModal && (
+        <DeleteModal
+          setDeleteModal={setDeleteModal}
+          deleteHandler={deleteHandler}
+        />
+      )}
     </div>
   );
 

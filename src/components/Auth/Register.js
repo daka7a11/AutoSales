@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
+import { toast } from "react-toastify";
 
 const emptyValidation = (value) => value.trim() !== "";
 const emailValidation = (value) => value.includes("@");
@@ -126,7 +127,10 @@ const Register = ({}) => {
     };
 
     try {
-      await authContext.register(userData);
+      const user = await authContext.register(userData);
+      toast.warn(
+        `Account created! \nWelcome ${user.username || user.firstName}!`
+      );
       navigate("/");
     } catch (error) {
       return;

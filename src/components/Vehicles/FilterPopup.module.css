@@ -23,7 +23,7 @@
   flex-direction: column;
   z-index: 2;
   overflow: hidden;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .popup-heading {
@@ -103,4 +103,8 @@
 
 .btn-apply {
   background-color: rgb(255, 140, 0);
+}
+
+.btn-delete {
+  background-color: rgb(255, 141, 141);
 }

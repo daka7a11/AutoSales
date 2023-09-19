@@ -13,6 +13,11 @@ import MyPosts from "./components/MyPosts/MyPosts";
 import Logout from "./components/Auth/Logout";
 import Edit from "./components/Edit/Edit";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import "./App.css";
+
 function App() {
   return (
     <AuthProvider>
@@ -30,6 +35,7 @@ function App() {
           <Route path="/edit/:id" element={<Edit />} />
         </Routes>
         <Footer></Footer>
+        <ToastContainer icon={false} autoClose={2500} theme="dark" />
       </Fragment>
     </AuthProvider>
   );
