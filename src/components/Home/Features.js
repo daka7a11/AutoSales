@@ -7,12 +7,17 @@ const Features = () => {
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [mostLiked, setMostLiked] = useState([]);
 
-  const { getAdvertisements } = useData();
+  const { getRecentlyAdded, getMostLiked } = useData();
 
   useEffect(() => {
     async function fetchData() {
-      const vehicles = await getAdvertisements();
-      console.log(vehicles);
+      const recentlyProm = getRecentlyAdded();
+      const mostLikedProm = await getMostLiked();
+      console.log(mostLikedProm);
+
+      const featuresData = await Promise.all([recentlyProm, mostLikedProm]);
+      setRecentlyAdded(featuresData[0]);
+      setMostLiked(featuresData[1]);
     }
     fetchData();
   }, []);
@@ -23,13 +28,13 @@ const Features = () => {
         <div id="recently-added" className={styles["recently-added-container"]}>
           <h2 className={styles["container-title"]}>Recently added</h2>
           {recentlyAdded.map((v) => (
-            <Cart key={v.id} vehicle={v} />
+            <Cart key={v._id} vehicle={v} />
           ))}
         </div>
         <div id="most-liked" className={styles["most-liked-container"]}>
           <h2 className={styles["container-title"]}>Most liked</h2>
           {mostLiked.map((v) => (
-            <Cart key={v.id} vehicle={v} />
+            <Cart key={v._id} vehicle={v} />
           ))}
         </div>
       </div>

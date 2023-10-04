@@ -42,7 +42,7 @@ const Details = () => {
     }
 
     fetchData();
-  }, []);
+  }, [getAdvertisement, id]);
 
   useEffect(() => {
     async function fetchData() {
@@ -52,7 +52,7 @@ const Details = () => {
     }
 
     fetchData();
-  }, [isLiked]);
+  }, [isLiked, getAdvertisementLikes, id, isAuth]);
 
   const likeClickHandler = async () => {
     if (isLiked) {
