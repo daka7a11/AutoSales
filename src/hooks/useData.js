@@ -75,7 +75,13 @@ const useData = () => {
   };
 
   const getMostLiked = async () => {
+    const activeVehicles = await getAdvertisements();
+
     let likes = (await getLikes()).reduce((acc, curr) => {
+      if (!activeVehicles.some((x) => x._id === curr.vehicleId)) {
+        return acc;
+      }
+
       let current = acc.find((x) => x.vehicleId === curr.vehicleId);
 
       if (current === undefined) {
