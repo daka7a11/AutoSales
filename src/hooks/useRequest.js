@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030";
+const baseUrl = "http://localhost:8000";
 
 const useRequest = (getUserData, clearUserData) => {
   async function request(method, url, data) {
@@ -15,8 +15,8 @@ const useRequest = (getUserData, clearUserData) => {
     const user = getUserData();
 
     if (user) {
-      const token = user.accessToken;
-      options.headers["X-Authorization"] = token;
+      const token = user.token;
+      options.headers["Authorization"] = token;
     }
 
     try {
@@ -25,10 +25,22 @@ const useRequest = (getUserData, clearUserData) => {
       if (!res.ok) {
         const err = await res.json();
 
+        if (res.status === 400) {
+          const error = new Error();
+          error.status = 400;
+          error.errors = err;
+          throw error;
+        }
+
+        if (res.status === 401) {
+          const error = new Error("Unauthorized");
+          error.status = 401;
+          throw error;
+        }
+
         if (res.status === 403) {
           const err403 = new Error(err.message);
           err403.status = 403;
-          clearUserData();
           throw err403;
         }
 
@@ -41,7 +53,10 @@ const useRequest = (getUserData, clearUserData) => {
 
       return res.json();
     } catch (err) {
-      throw new Error(err.message);
+      if ((err.status && err.status === 400) || err.status === 401) {
+        throw err;
+      }
+      throw new Error(err);
     }
   }
 

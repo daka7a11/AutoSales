@@ -8,11 +8,6 @@ import { toast } from "react-toastify";
 import DeleteModal from "./DeleteModal";
 
 const Details = () => {
-  const [vehicle, setVehicle] = useState({});
-  const [likes, setLikes] = useState([]);
-
-  const authContext = useAuthContext();
-
   const {
     getAdvertisement,
     deleteAdvertisement,
@@ -20,6 +15,10 @@ const Details = () => {
     getAdvertisementLikes,
     deleteLike,
   } = useData();
+  const authContext = useAuthContext();
+
+  const [vehicle, setVehicle] = useState({});
+  const [likes, setLikes] = useState([]);
 
   const { id } = useParams();
 
@@ -29,7 +28,7 @@ const Details = () => {
 
   const isAuth = Boolean(user);
 
-  const isOwner = isAuth && user?._id === vehicle._ownerId;
+  const isOwner = isAuth && user?._id === vehicle.owner?._id;
 
   const [isLiked, setIsLiked] = useState();
 
@@ -45,14 +44,10 @@ const Details = () => {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      const likes = await getAdvertisementLikes(id);
-      setLikes(likes);
-      setIsLiked(isAuth && likes.some((x) => x._ownerId === user._id));
-    }
-
-    fetchData();
-  }, [isLiked, isAuth]);
+    console.log(vehicle);
+    const isLike = isAuth && vehicle.likes?.some((x) => x === user._id);
+    console.log(isLike);
+  }, [vehicle]);
 
   const likeClickHandler = async () => {
     if (isLiked) {
@@ -147,7 +142,7 @@ const Details = () => {
         <div className={styles["specification"]}>
           <span>Manufacturing date:</span>
           <span className={styles["specification-detail"]}>
-            {vehicle.manufacturing_date}
+            {vehicle.manufacturingDate?.slice(0, 7)}
           </span>
         </div>
         <div className={styles["specification"]}>
@@ -158,7 +153,9 @@ const Details = () => {
         </div>
         <div className={styles["specification"]}>
           <span>Horse power:</span>
-          <span className={styles["specification-detail"]}>{vehicle.hp}</span>
+          <span className={styles["specification-detail"]}>
+            {vehicle.horsePower}
+          </span>
         </div>
         <div className={styles["specification"]}>
           <span>Mileage:</span>

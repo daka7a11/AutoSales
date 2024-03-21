@@ -1,23 +1,17 @@
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Logout = () => {
   const authContext = useAuthContext();
   const navigate = useNavigate();
 
-  authContext
-    .logout()
-    .then(() => {
-      toast.warn(
-        `Bye ${
-          authContext.getUserData().username ||
-          authContext.getUserData().firstName
-        }!`
-      );
-      navigate("/");
-    })
-    .catch((err) => console.log(err));
+  useEffect(() => {
+    const userData = authContext.logout();
+    toast.warn(`Bye ${userData.firstName}!`);
+    navigate("/");
+  }, []);
 
   return "";
 };

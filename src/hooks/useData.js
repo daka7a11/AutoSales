@@ -2,11 +2,11 @@ import useRequest from "./useRequest";
 import { useAuthContext } from "../context/AuthContext";
 
 const endPoints = {
-  makesModels: "/data/vehicles",
-  regions: "/data/regions",
-  create: "/data/advertisements",
-  edit: "/data/advertisements/",
-  advertisements: "/data/advertisements",
+  makesModels: "/static/makes-models",
+  regions: "/static/regions",
+  create: "/vehicles",
+  edit: "/vehicles/",
+  advertisements: "/vehicles",
   likes: "/data/likes",
 };
 
@@ -14,17 +14,17 @@ const useData = () => {
   const { getUserData, clearUseData } = useAuthContext();
   const request = useRequest(getUserData, clearUseData);
 
-  const getMakesModels = () => {
-    return request
-      .get(endPoints.makesModels)
-      .then((data) => Object.values(data));
+  const getMakesModels = async () => {
+    const data = await request.get(endPoints.makesModels);
+    return JSON.parse(data);
   };
 
-  const getRegions = () => {
-    return request.get(endPoints.regions).then((data) => Object.values(data));
+  const getRegions = async () => {
+    const data = await request.get(endPoints.regions);
+    return JSON.parse(data);
   };
 
-  const createAdvertisement = (data) => {
+  const createAdvertisement = async (data) => {
     return request.post(endPoints.create, data);
   };
 
@@ -45,6 +45,9 @@ const useData = () => {
   };
 
   const likeAdvertisement = (vehicleId) => {
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
     const data = {
       vehicleId,
     };
@@ -52,19 +55,31 @@ const useData = () => {
   };
 
   const getLikes = () => {
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
     return request.get(endPoints.likes);
   };
 
   const getAdvertisementLikes = (id) => {
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
     const encodedUrl = encodeURIComponent(`vehicleId="${id}"`);
     return request.get(endPoints.likes + "?where=" + encodedUrl);
   };
 
   const deleteLike = (likeId) => {
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
     return request.del(endPoints.likes + "/" + likeId);
   };
 
   const getRecentlyAdded = async () => {
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
     const advertisements = await getAdvertisements();
     return advertisements
       .sort(
@@ -75,6 +90,9 @@ const useData = () => {
   };
 
   const getMostLiked = async () => {
+    return new Promise((resolve, reject) => {
+      resolve([]);
+    });
     const activeVehicles = await getAdvertisements();
 
     let likes = (await getLikes()).reduce((acc, curr) => {

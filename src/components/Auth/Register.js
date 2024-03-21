@@ -6,19 +6,21 @@ import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import { toast } from "react-toastify";
+import Errors from "../UI/Errors";
 
 const emptyValidation = (value) => value.trim() !== "";
 const emailValidation = (value) => value.includes("@");
 
-const Register = ({}) => {
+const Register = () => {
+  const authContext = useAuthContext();
+  const navigate = useNavigate();
+
   useEffect(() => {
     return () => {
       authContext.clearError();
     };
   }, []);
 
-  const authContext = useAuthContext();
-  const navigate = useNavigate();
   const {
     value: enteredFirstName,
     isValid: firstNameIsValid,
@@ -79,6 +81,14 @@ const Register = ({}) => {
     reset: resetConfirmPassword,
   } = useInput(emptyValidation);
 
+  const errorRegistry = {
+    firstName: firstNameHasError,
+    lastName: lastNameHasError,
+    email: emailHasError,
+    phone: phoneHasError,
+    password: passwordHasError,
+  };
+
   const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
 
   const formIsValid =
@@ -124,6 +134,7 @@ const Register = ({}) => {
       email: enteredEmail,
       phone: enteredPhone,
       password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
     };
 
     try {
@@ -137,24 +148,13 @@ const Register = ({}) => {
     }
   };
 
-  const errorSection = (
-    <Fragment>
-      {authContext.error && (
-        <p className={styles["invalid-message"]}>{authContext.error}</p>
-      )}
-      {!isPasswordsMatch && (
-        <p className={styles["invalid-message"]}>Passwords do not match!</p>
-      )}
-    </Fragment>
-  );
-
   return (
     <div className={authStyles["form-container"]}>
       <div className={`page-title`}>
         <h2>Register</h2>
       </div>
       <form onSubmit={submitHandler} className={styles["form"]}>
-        {errorSection}
+        <Errors errors={authContext.errors} />
         <div className={styles["form-wrapper"]}>
           <label htmlFor="first_name">First name</label>
           <input

@@ -12,7 +12,7 @@ const endpoints = {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState([]);
 
   const [user, setUser] = useState();
 
@@ -27,9 +27,9 @@ export const AuthProvider = ({ children }) => {
   const getUserData = () => {
     return user;
   };
-  const setUserData = (user) => {
-    setUser(user);
-    sessionStorage.setItem("user", JSON.stringify(user));
+  const setUserData = (userData) => {
+    setUser(userData);
+    sessionStorage.setItem("user", JSON.stringify(userData));
   };
   const clearUserData = () => {
     setUser(initialUser);
@@ -40,39 +40,38 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, pass) => {
     try {
-      const { password, ...user } = await request.post(endpoints.login, {
+      const loggedUser = await request.post(endpoints.login, {
         email,
         password: pass,
       });
-      setUserData(user);
-      return user;
-    } catch (error) {
-      setError(error.message);
-      throw error;
+      setUserData(loggedUser);
+      return loggedUser;
+    } catch (err) {
+      setErrors(err.errors);
+      throw err;
     }
   };
 
   const register = async (userData) => {
     try {
-      const { password, ...user } = await request.post(
-        endpoints.register,
-        userData
-      );
-      setUserData(user);
-      return user;
-    } catch (error) {
-      setError(error.message);
-      throw error;
+      const registeredUser = await request.post(endpoints.register, userData);
+
+      setUserData(registeredUser);
+      return registeredUser;
+    } catch (err) {
+      setErrors(err.errors);
+      throw err;
     }
   };
 
-  const logout = async () => {
-    await request.get(endpoints.logout);
+  const logout = () => {
+    const userData = getUserData();
     clearUserData();
+    return userData;
   };
 
   const clearError = () => {
-    setError(null);
+    setErrors(null);
   };
 
   const providerValue = {
@@ -82,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    error,
+    errors,
     clearError,
   };
   return (

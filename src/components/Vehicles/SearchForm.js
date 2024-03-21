@@ -12,7 +12,6 @@ const SearchForm = ({ filterState, filterDispatch }) => {
   useEffect(() => {
     async function fetchData() {
       const makesModels = await getMakesModels();
-
       setMakesModels(makesModels);
 
       const regions = (await getRegions()).map((r) => r.name);

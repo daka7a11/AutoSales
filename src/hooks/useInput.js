@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useInput = (validateValue) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isTouched, setIsTouched] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const valueIsValid = validateValue(enteredValue);
-  const hasError = !valueIsValid && isTouched;
+  // const hasError = !valueIsValid && isTouched;
+
+  useEffect(() => {
+    setHasError(!valueIsValid && isTouched);
+  }, [valueIsValid, isTouched]);
 
   const valueChangeHandler = (e) => {
     setEnteredValue(e.target.value);
@@ -20,6 +25,10 @@ const useInput = (validateValue) => {
     setIsTouched(false);
   };
 
+  const setError = () => {
+    setHasError(true);
+  };
+
   return {
     value: enteredValue,
     isValid: valueIsValid,
@@ -29,6 +38,7 @@ const useInput = (validateValue) => {
     setIsTouched,
     reset,
     setValue: setEnteredValue,
+    setError,
   };
 };
 

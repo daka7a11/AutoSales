@@ -7,6 +7,7 @@ import useInput from "../../hooks/useInput";
 import useData from "../../hooks/useData";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Errors from "../UI/Errors.js";
 
 const requiredMsg = <p className={styles["invalid-message"]}>Required!</p>;
 
@@ -20,6 +21,10 @@ const CreatePost = ({ vehicle }) => {
   const { getMakesModels, getRegions, createAdvertisement, editAdvertisement } =
     useData();
 
+  const [errors, setErrors] = useState([]);
+
+  // #region Input States
+
   const {
     value: enteredTitle,
     isValid: titleIsValid,
@@ -28,6 +33,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: titleBlurHandler,
     reset: resetTitle,
     setValue: setTitle,
+    setError: titleSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -38,6 +44,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: typeBlurHandler,
     reset: resetType,
     setValue: setType,
+    setError: typeSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -48,6 +55,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: makeBlurHandler,
     reset: resetMake,
     setValue: setMake,
+    setError: makeSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -58,6 +66,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: modelBlurHandler,
     reset: resetModel,
     setValue: setModel,
+    setError: modelSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -68,6 +77,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: fuelBlurHandler,
     reset: resetFuel,
     setValue: setFuel,
+    setError: fuelSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -78,6 +88,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: gearboxBlurHandler,
     reset: resetGearbox,
     setValue: setGearbox,
+    setError: gearboxSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -88,6 +99,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: priceBlurHandler,
     reset: resetPrice,
     setValue: setPrice,
+    setError: priceSetError,
   } = useInput((x) => x.trim() !== "" && Number(x) > 0);
 
   const {
@@ -98,6 +110,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: manufacturingDateBlurHandler,
     reset: resetManufacturingDate,
     setValue: setManufacturingDate,
+    setError: manufacturingDateSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -108,6 +121,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: regionBlurHandler,
     reset: resetRegion,
     setValue: setRegion,
+    setError: regionSetError,
   } = useInput((x) => x.trim() !== "");
 
   const {
@@ -118,6 +132,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: horsePowerBlurHandler,
     reset: resetHorsePower,
     setValue: setHorsePower,
+    setError: horsePowerSetError,
   } = useInput((x) => x.trim() !== "" && Number(x) > 0);
 
   const {
@@ -128,6 +143,7 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: mileageBlurHandler,
     reset: resetMileage,
     setValue: setMileage,
+    setError: mileageSetError,
   } = useInput((x) => x.trim() !== "" && Number(x) > 0);
 
   const {
@@ -138,7 +154,10 @@ const CreatePost = ({ vehicle }) => {
     inputBlurHandler: descriptionBlurHandler,
     reset: resetDescription,
     setValue: setDescription,
+    setError: descriptionSetError,
   } = useInput((x) => x.trim() !== "");
+
+  // #endregion
 
   useEffect(() => {
     async function fetchData() {
@@ -171,20 +190,35 @@ const CreatePost = ({ vehicle }) => {
       return;
     }
 
-    setTitle(vehicle.title);
-    setType(vehicle.type);
-    setMake(vehicle.make);
-    setModel(vehicle.model);
-    setFuel(vehicle.fuel);
-    setGearbox(vehicle.gearbox);
-    setPrice(vehicle.price);
-    setManufacturingDate(vehicle.manufacturing_date);
-    setRegion(vehicle.region);
-    setHorsePower(vehicle.hp);
-    setMileage(vehicle.mileage);
-    setDescription(vehicle.description);
+    setTitle(vehicle.title.toString());
+    setType(vehicle.type.toString());
+    setMake(vehicle.make.toString());
+    setModel(vehicle.model.toString());
+    setFuel(vehicle.fuel.toString());
+    setGearbox(vehicle.gearbox.toString());
+    setPrice(vehicle.price.toString());
+    setManufacturingDate(vehicle.manufacturingDate.slice(0, 7));
+    setRegion(vehicle.region.toString());
+    setHorsePower(vehicle.horsePower.toString());
+    setMileage(vehicle.mileage.toString());
+    setDescription(vehicle.description.toString());
     setImages(vehicle.images);
   }, [vehicle]);
+
+  const fieldNamesErrorFunctions = {
+    title: titleSetError,
+    type: typeSetError,
+    make: makeSetError,
+    model: modelSetError,
+    fuel: fuelSetError,
+    gearbox: gearboxSetError,
+    price: priceSetError,
+    manufacturingDate: manufacturingDateSetError,
+    region: regionSetError,
+    horsePower: horsePowerSetError,
+    mileage: mileageSetError,
+    description: descriptionSetError,
+  };
 
   const imagesChangeHandler = (e) => {
     const files = Object.values(e.target.files);
@@ -201,25 +235,24 @@ const CreatePost = ({ vehicle }) => {
     }
   };
 
-  const isFormValid =
-    titleIsValid &&
-    typeIsValid &&
-    makeIsValid &&
-    modelIsValid &&
-    fuelIsValid &&
-    gearboxIsValid &&
-    priceIsValid &&
-    manufacturingDateIsValid &&
-    regionIsValid &&
-    horsePowerIsValid &&
-    mileageIsValid &&
-    descriptionIsValid;
+  const isFormValid = true;
+  // titleIsValid &&
+  // typeIsValid &&
+  // makeIsValid &&
+  // modelIsValid &&
+  // fuelIsValid &&
+  // gearboxIsValid &&
+  // priceIsValid &&
+  // manufacturingDateIsValid &&
+  // regionIsValid &&
+  // horsePowerIsValid &&
+  // mileageIsValid &&
+  // descriptionIsValid;
 
   const invalidFormClass = !isFormValid && styles["invalid-form"];
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     if (!isFormValid) {
       return;
     }
@@ -231,9 +264,9 @@ const CreatePost = ({ vehicle }) => {
       fuel: selectedFuel,
       gearbox: selectedGearbox,
       price: enteredPrice,
-      manufacturing_date: selectedManufacturingDate,
+      manufacturingDate: selectedManufacturingDate,
       region: selectedRegion,
-      hp: enteredHorsePower,
+      horsePower: enteredHorsePower,
       mileage: enteredMileage,
       images: images,
       description: enteredDescription,
@@ -241,15 +274,34 @@ const CreatePost = ({ vehicle }) => {
 
     let createdVehicle = null;
 
-    if (vehicle) {
-      createdVehicle = await editAdvertisement(vehicle._id, data);
-      toast.warn(`Post edited!`);
-    } else {
-      createdVehicle = await createAdvertisement(data);
-      toast.warn(`Post created!`);
-    }
+    try {
+      if (vehicle) {
+        createdVehicle = await editAdvertisement(vehicle._id, data);
+        toast.warn(`Post edited!`);
+      } else {
+        createdVehicle = await createAdvertisement(data);
+        toast.warn(`Post created!`);
+      }
 
-    navigate("/details/" + createdVehicle._id);
+      navigate("/details/" + createdVehicle._id);
+    } catch (e) {
+      if (e.status && e.status === 401) {
+        return navigate("/login");
+      }
+
+      if (e.status === 400) {
+        setErrors(e.errors);
+        e.errors.forEach((e) => {
+          const fieldSetError = fieldNamesErrorFunctions[e.field];
+          fieldSetError();
+        });
+        return;
+      }
+
+      console.log(e);
+
+      throw e;
+    }
   };
 
   const imagePreviewClickHandler = (url) => {
@@ -262,6 +314,7 @@ const CreatePost = ({ vehicle }) => {
         <h2>{vehicle ? "Edit post" : "Create post"}</h2>
       </div>
       <form onSubmit={submitHandler} className={styles["form"]}>
+        {errors.length > 0 && <Errors errors={errors} />}
         <div className={createStyles["form-container"]}>
           <div className={createStyles["form-col"]}>
             <div className={styles["form-wrapper"]}>
@@ -324,7 +377,7 @@ const CreatePost = ({ vehicle }) => {
                 value={selectedModel}
                 id="model"
                 name="model"
-                disabled={models.length == 0}
+                disabled={models.length === 0}
               >
                 <option value="">Choose vehicle model</option>
                 {models.map((m) => (

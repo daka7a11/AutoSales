@@ -20,7 +20,7 @@ const initialFilterReducerObj = {
   },
   year: {
     from: new Date("1950"),
-    to: new Date("2023"),
+    to: new Date("2024"),
   },
   region: null,
   power: {
@@ -238,12 +238,13 @@ const Vehicles = () => {
       }
     }
 
-    filteredVehicles = filteredVehicles.filter(
-      (x) =>
-        x.manufacturing_date.split("-")[0] >=
-          filterState.year.from.getFullYear() &&
-        x.manufacturing_date.split("-")[0] <= filterState.year.to.getFullYear()
-    );
+    filteredVehicles = filteredVehicles.filter((x) => {
+      const manufacturingYear = Number(x.manufacturingDate.split("-")[0]);
+      const minYear = filterState.year.from.getFullYear();
+      const maxYear = filterState.year.to.getFullYear();
+
+      return manufacturingYear >= minYear && manufacturingYear <= maxYear;
+    });
 
     filteredVehicles = filteredVehicles.filter((x) =>
       filterState.region ? filterState.region === x.region : true
@@ -254,18 +255,19 @@ const Vehicles = () => {
         if (filterState.power.to) {
           filteredVehicles = filteredVehicles.filter(
             (x) =>
-              x.hp >= filterState.power.from && x.hp <= filterState.power.to
+              x.horsePower >= filterState.power.from &&
+              x.horsePower <= filterState.power.to
           );
         } else {
           filteredVehicles = filteredVehicles.filter(
-            (x) => x.hp >= filterState.power.from
+            (x) => x.horsePower >= filterState.power.from
           );
         }
       }
 
       if (filterState.power.to && !filterState.power.from) {
         filteredVehicles = filteredVehicles.filter(
-          (x) => x.hp <= filterState.power.to
+          (x) => x.horsePower <= filterState.power.to
         );
       }
     }

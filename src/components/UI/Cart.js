@@ -38,7 +38,7 @@ const Cart = ({ vehicle, className }) => {
           className={`${styles["text"]} ${styles["item-manufacturing-date"]}`}
         >
           <ion-icon class={styles["icon"]} name="calendar"></ion-icon>
-          <p>{vehicle.manufacturing_date.slice(0, 4)}</p>
+          <p>{vehicle.manufacturingDate.slice(0, 4)}</p>
         </div>
       </div>
     </div>

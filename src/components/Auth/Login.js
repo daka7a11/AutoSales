@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Errors from "../UI/Errors";
 
 const Login = () => {
   useEffect(() => {
@@ -33,19 +34,13 @@ const Login = () => {
     }
   };
 
-  const errorSection = (
-    <div>
-      <p className={styles["invalid-message"]}>{authContext.error}</p>
-    </div>
-  );
-
   return (
     <div className={authStyles["form-container"]}>
       <div className={`page-title`}>
         <h2>Login</h2>
       </div>
       <form onSubmit={submitHandler} className={styles["form"]}>
-        {authContext.error && errorSection}
+        <Errors errors={authContext.errors} />
         <div className={styles["form-wrapper"]}>
           <label htmlFor="email">Email</label>
           <input id="email" name="email" type="text" />

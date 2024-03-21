@@ -13,7 +13,6 @@ const Features = () => {
     async function fetchData() {
       const recentlyProm = getRecentlyAdded();
       const mostLikedProm = await getMostLiked();
-      console.log(mostLikedProm);
 
       const featuresData = await Promise.all([recentlyProm, mostLikedProm]);
       setRecentlyAdded(featuresData[0]);

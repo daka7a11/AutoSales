@@ -2,6 +2,8 @@ import styles from "./Hero.module.css";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
+  const a = [];
+
   return (
     <section className={styles.hero}>
       <div className={`${styles["welcome-text-container"]} page-container`}>
