@@ -1,4 +1,5 @@
-const baseUrl = "http://localhost:8000";
+// const baseUrl = "http://localhost:8000";
+const baseUrl = "https://autosales-restapi.onrender.com";
 
 const useRequest = (getUserData, clearUserData) => {
   async function request(method, url, data) {

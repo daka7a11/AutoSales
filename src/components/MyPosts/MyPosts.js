@@ -7,7 +7,7 @@ import VehiclesList from "../Vehicles/VehiclesList";
 const MyPosts = () => {
   const authContext = useAuthContext();
 
-  const { getAdvertisements } = useData();
+  const { getMyPosts } = useData();
 
   const navigate = useNavigate();
 
@@ -26,12 +26,8 @@ const MyPosts = () => {
     }
 
     async function fetchData() {
-      getAdvertisements().then((data) => {
-        const fetchedData = data.filter(
-          (x) => x._ownerId === authContext.getUserData()._id
-        );
-        setMyPosts(fetchedData);
-      });
+      const posts = await getMyPosts();
+      setMyPosts(posts);
     }
 
     fetchData();
@@ -42,6 +38,7 @@ const MyPosts = () => {
       <div className={`page-title`}>
         <h2>My posts</h2>
       </div>
+
       <VehiclesList vehicles={myPosts} />
     </div>
   );

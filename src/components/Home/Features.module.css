@@ -31,3 +31,24 @@
   display: flex;
   justify-content: center;
 }
+
+@media only screen and (max-width: 880px) {
+  .features-container {
+    grid-template-columns: 1fr;
+  }
+
+  .recently-added-container {
+    justify-self: center;
+    margin-bottom: 4rem;
+  }
+
+  .most-liked-container {
+    justify-self: center;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .features-container {
+    grid-template-columns: 1fr;
+  }
+}

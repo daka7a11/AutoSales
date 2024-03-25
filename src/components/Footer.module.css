@@ -1,6 +1,5 @@
 .footer {
   margin-top: auto;
-  padding: 2.4rem 0;
 
   color: #eee;
 
@@ -26,6 +25,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 2fr 1fr;
+  gap: 0.8rem;
 }
 .link:link,
 .link:visited {
@@ -33,6 +33,7 @@
   overflow: hidden;
   width: fit-content;
   height: fit-content;
+  margin: 0.6rem 0;
 }
 
 .home-link:link,
@@ -86,4 +87,31 @@
   font-size: 3rem;
   z-index: 2;
   overflow: hidden;
+}
+
+@media only screen and (max-width: 840px) {
+  .container {
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 0.8rem;
+  }
+
+  .link:link,
+  .link:visited {
+    font-size: 1.4rem;
+  }
+
+  .home-link:link,
+  .home-link:visited {
+    font-size: 2.6rem;
+  }
+
+  .link.logo {
+    font-size: 3rem;
+  }
+
+  .copyright-container {
+    font-size: 1rem;
+  }
 }

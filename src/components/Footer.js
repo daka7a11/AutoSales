@@ -25,10 +25,10 @@ const Footer = () => {
           <a className={styles["link"]} href="/vehicles">
             Find your future vehicle
           </a>
-          <a className={styles["link"]} href="#recently-added">
+          <a className={styles["link"]} href="/#recently-added">
             Check recently added vehicles
           </a>
-          <a className={styles["link"]} href="#most-liked">
+          <a className={styles["link"]} href="/#most-liked">
             Check most liked vehicles
           </a>
         </div>

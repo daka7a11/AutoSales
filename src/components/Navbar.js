@@ -2,9 +2,23 @@ import { NavLink } from "react-router-dom";
 
 import styles from "./Navbar.module.css";
 import { useAuthContext } from "../context/AuthContext";
+import { useState } from "react";
 
 const Navbar = (props) => {
   const authContext = useAuthContext();
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  const menuClickHandler = (e) => {
+    console.log(e.target.nodeName);
+    if (e.target.nodeName === "A" || e.target.id === "close-menu") {
+      setIsMenuOpened(false);
+      return;
+    }
+    if (e.target.id === "open-menu") {
+      setIsMenuOpened(true);
+      return;
+    }
+  };
 
   const userLinks = (
     <>
@@ -44,9 +58,28 @@ const Navbar = (props) => {
           Vehicles
         </NavLink>
       </div>
-      <div className={styles["user-actions"]}>
+      <div className={`${styles["user-actions"]} ${styles["max"]}`}>
         {authContext.getUserData() ? userLinks : guestLinks}
       </div>
+      <div
+        onClick={menuClickHandler}
+        className={`${styles["user-actions"]} ${styles["menu-min"]} ${
+          isMenuOpened ? styles["opened"] : styles["closed"]
+        }`}
+      >
+        {authContext.getUserData() ? userLinks : guestLinks}
+        <ion-icon
+          id="close-menu"
+          class={`${styles["close-menu"]}`}
+          name="close-circle-outline"
+        ></ion-icon>
+      </div>
+      <ion-icon
+        onClick={menuClickHandler}
+        class={`${styles["icon"]} ${styles["icon-menu"]}`}
+        name="menu-outline"
+        id="open-menu"
+      ></ion-icon>
     </nav>
   );
 };

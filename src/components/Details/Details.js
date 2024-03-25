@@ -18,7 +18,6 @@ const Details = () => {
   const authContext = useAuthContext();
 
   const [vehicle, setVehicle] = useState({});
-  const [likes, setLikes] = useState([]);
 
   const { id } = useParams();
 
@@ -30,7 +29,7 @@ const Details = () => {
 
   const isOwner = isAuth && user?._id === vehicle.owner?._id;
 
-  const [isLiked, setIsLiked] = useState();
+  const [isLiked, setIsLiked] = useState(false);
 
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -41,28 +40,35 @@ const Details = () => {
     }
 
     fetchData();
-  }, []);
+  }, [isLiked]);
 
   useEffect(() => {
-    console.log(vehicle);
     const isLike = isAuth && vehicle.likes?.some((x) => x === user._id);
-    console.log(isLike);
+    setIsLiked(isLike);
   }, [vehicle]);
 
   const likeClickHandler = async () => {
     if (isLiked) {
       return;
     }
-    await likeAdvertisement(id);
-    toast.warn(`Liked!`);
-    setIsLiked(true);
+    try {
+      const updatedVehicle = await likeAdvertisement(id);
+      toast.warn(`Liked.`);
+      setIsLiked(true);
+      //setVehicle(updatedVehicle); ? MISTERY : NOT WORKING PROPERLY WHEN INSERT THIS LINE
+    } catch (e) {
+      if (e.status === 400) {
+        toast.warn(`Already liked.`);
+        return;
+      }
+    }
   };
 
   const dislikeClickHandler = async () => {
-    const like = likes.find((x) => x._ownerId === user._id);
-    await deleteLike(like._id);
+    const updatedVehicle = await deleteLike(vehicle._id);
     toast.warn(`Disliked!`);
     setIsLiked(false);
+    // setVehicle(updatedVehicle);
   };
 
   const eidtClickHandler = () => {
@@ -173,7 +179,7 @@ const Details = () => {
           <div className={`${styles["additional"]}`}>
             Likes:{" "}
             <span className={styles["specification-detail"]}>
-              {likes.length}
+              {vehicle.likes?.length}
             </span>
           </div>
 

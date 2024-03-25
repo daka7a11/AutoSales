@@ -2,11 +2,13 @@
   width: 80%;
   margin: 1rem auto;
   display: flex;
-  gap: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   font-size: 1.6rem;
   font-weight: 500;
   color: #666;
   text-transform: uppercase;
+  justify-content: center;
 }
 .applied-filter {
   padding: 0.2rem 0.6rem;
@@ -27,4 +29,17 @@
 
 .infinite-icon {
   color: red;
+}
+
+@media only screen and (max-width: 1200px) {
+  .applied-filters {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .applied-filters {
+    font-size: 1rem;
+    font-weight: 300;
+  }
 }

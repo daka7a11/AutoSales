@@ -7,7 +7,10 @@ const endPoints = {
   create: "/vehicles",
   edit: "/vehicles/",
   advertisements: "/vehicles",
-  likes: "/data/likes",
+  like: "/vehicles/like/",
+  recentlyAdded: "/vehicles/recently-added",
+  mostLiked: "/vehicles/most-liked",
+  myPosts: "/vehicles/my-posts",
 };
 
 const useData = () => {
@@ -45,82 +48,23 @@ const useData = () => {
   };
 
   const likeAdvertisement = (vehicleId) => {
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    });
-    const data = {
-      vehicleId,
-    };
-    return request.post(endPoints.likes, data);
+    return request.post(endPoints.like + vehicleId);
   };
 
-  const getLikes = () => {
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    });
-    return request.get(endPoints.likes);
-  };
-
-  const getAdvertisementLikes = (id) => {
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    });
-    const encodedUrl = encodeURIComponent(`vehicleId="${id}"`);
-    return request.get(endPoints.likes + "?where=" + encodedUrl);
-  };
-
-  const deleteLike = (likeId) => {
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    });
-    return request.del(endPoints.likes + "/" + likeId);
+  const deleteLike = (vehicleId) => {
+    return request.del(endPoints.like + vehicleId);
   };
 
   const getRecentlyAdded = async () => {
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    });
-    const advertisements = await getAdvertisements();
-    return advertisements
-      .sort(
-        (a, b) =>
-          new Date(b.manufacturing_date) - new Date(a.manufacturing_date)
-      )
-      .slice(0, 4);
+    return request.get(endPoints.recentlyAdded);
   };
 
   const getMostLiked = async () => {
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    });
-    const activeVehicles = await getAdvertisements();
+    return request.get(endPoints.mostLiked);
+  };
 
-    let likes = (await getLikes()).reduce((acc, curr) => {
-      if (!activeVehicles.some((x) => x._id === curr.vehicleId)) {
-        return acc;
-      }
-
-      let current = acc.find((x) => x.vehicleId === curr.vehicleId);
-
-      if (current === undefined) {
-        current = { vehicleId: curr.vehicleId, likes: 0 };
-        acc.push(current);
-      }
-
-      current.likes++;
-
-      return acc;
-    }, []);
-    likes = likes.sort((a, b) => b.likes - a.likes).slice(0, 4);
-
-    likes = likes.reduce((acc, curr) => {
-      acc.push(getAdvertisement(curr.vehicleId));
-      return acc;
-    }, []);
-
-    const mostLiked = await Promise.all(likes);
-
-    return mostLiked;
+  const getMyPosts = async () => {
+    return request.get(endPoints.myPosts);
   };
 
   return {
@@ -132,10 +76,10 @@ const useData = () => {
     getAdvertisement,
     deleteAdvertisement,
     likeAdvertisement,
-    getAdvertisementLikes,
     deleteLike,
     getRecentlyAdded,
     getMostLiked,
+    getMyPosts,
   };
 };
 
