@@ -512,7 +512,7 @@ const CreatePost = ({ vehicle }) => {
                 id="images"
                 name="images"
                 type="file"
-                title=" "
+                title="Select Images"
                 multiple
               />
             </div>

@@ -12,8 +12,8 @@
 }
 
 .form-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+
   row-gap: 1rem;
 
   width: 100%;
@@ -69,4 +69,10 @@
   background-color: transparent;
   border: 1px solid #ccc;
   color: #ccc;
+}
+
+@media only screen and (max-width: 1200px) {
+  .submit-btn {
+    padding: 1.6rem 3.2rem;
+  }
 }

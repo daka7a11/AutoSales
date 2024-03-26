@@ -2,7 +2,7 @@
   display: flex;
   width: 60%;
   margin: 3.6rem auto;
-  height: 30rem;
+  max-height: auto;
   position: relative;
 }
 
@@ -56,4 +56,15 @@
   left: 50%;
   top: 100%;
   transform: translate(-50%, 0);
+}
+
+@media only screen and (max-width: 850px) {
+  .slider-container {
+    width: 82%;
+  }
+  .left-swap,
+  .right-swap {
+    height: 28px;
+    width: 28px;
+  }
 }
