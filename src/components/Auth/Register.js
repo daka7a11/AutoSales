@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import { toast } from "react-toastify";
 import Errors from "../UI/Errors";
+import Loader from "../UI/Loader";
 
 const emptyValidation = (value) => value.trim() !== "";
 const emailValidation = (value) => value.includes("@");
@@ -14,6 +15,7 @@ const emailValidation = (value) => value.includes("@");
 const Register = () => {
   const authContext = useAuthContext();
   const navigate = useNavigate();
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -136,7 +138,7 @@ const Register = () => {
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
     };
-
+    setIsSending(true);
     try {
       const user = await authContext.register(userData);
       toast.warn(
@@ -145,6 +147,8 @@ const Register = () => {
       navigate("/");
     } catch (error) {
       return;
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -241,9 +245,17 @@ const Register = () => {
           </Link>
         </div>
         <div className={styles["form-wrapper"]}>
-          <button className={`btn ${styles["submit-btn"]}`} type="submit">
-            Register
-          </button>
+          {isSending ? (
+            <Loader />
+          ) : (
+            <button
+              className={`btn ${styles["submit-btn"]}`}
+              type="submit"
+              disabled={isSending}
+            >
+              Register
+            </button>
+          )}
         </div>
       </form>
     </div>

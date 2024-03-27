@@ -1,5 +1,5 @@
 // const baseUrl = "http://localhost:8000";
-const baseUrl = "https://autosales-restapi.onrender.com";
+const baseUrl = "https://autosalesapi-552aac66d548.herokuapp.com";
 
 const useRequest = (getUserData, clearUserData) => {
   async function request(method, url, data) {

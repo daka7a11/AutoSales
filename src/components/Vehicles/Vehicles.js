@@ -6,6 +6,7 @@ import SearchForm from "./SearchForm";
 import VehiclesList from "./VehiclesList";
 import AppliedFilter from "./AppliedFilters";
 import useData from "../../hooks/useData";
+import Loader from "../UI/Loader";
 
 const initialFilterReducerObj = {
   t: null,
@@ -181,13 +182,17 @@ const filterReducer = (state, action) => {
 
 const Vehicles = () => {
   const [advertisements, setAdvertisements] = useState([]);
+  const [isDataFetching, setIsDataFetching] = useState(false);
 
   const { getAdvertisements } = useData();
 
   useEffect(() => {
     async function fetchData() {
+      setIsDataFetching(true);
+
       const data = await getAdvertisements();
       setAdvertisements(data);
+      setIsDataFetching(false);
     }
 
     fetchData();
@@ -283,7 +288,10 @@ const Vehicles = () => {
         filterState={filterState}
         filterDispatch={filterDispatch}
       />
-      <VehiclesList vehicles={applyAllFilters(advertisements)} />
+      {isDataFetching && <Loader />}
+      {!isDataFetching && (
+        <VehiclesList vehicles={applyAllFilters(advertisements)} />
+      )}
     </div>
   );
 };

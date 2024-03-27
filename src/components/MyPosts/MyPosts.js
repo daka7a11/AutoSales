@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useData from "../../hooks/useData";
 import { useAuthContext } from "../../context/AuthContext";
 import VehiclesList from "../Vehicles/VehiclesList";
+import Loader from "../UI/Loader";
 
 const MyPosts = () => {
   const authContext = useAuthContext();
@@ -15,6 +16,8 @@ const MyPosts = () => {
 
   const [myPosts, setMyPosts] = useState([]);
 
+  const [isDataFetching, setIsDataFetching] = useState(false);
+
   useEffect(() => {
     if (userData === undefined) {
       return;
@@ -26,8 +29,10 @@ const MyPosts = () => {
     }
 
     async function fetchData() {
+      setIsDataFetching(true);
       const posts = await getMyPosts();
       setMyPosts(posts);
+      setIsDataFetching(false);
     }
 
     fetchData();
@@ -38,8 +43,7 @@ const MyPosts = () => {
       <div className={`page-title`}>
         <h2>My posts</h2>
       </div>
-
-      <VehiclesList vehicles={myPosts} />
+      {isDataFetching ? <Loader /> : <VehiclesList vehicles={myPosts} />}
     </div>
   );
 };

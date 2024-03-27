@@ -6,6 +6,7 @@ import ImageSlider from "../UI/ImageSlider";
 import { useAuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import DeleteModal from "./DeleteModal";
+import Loader from "../UI/Loader";
 
 const Details = () => {
   const {
@@ -18,6 +19,7 @@ const Details = () => {
   const authContext = useAuthContext();
 
   const [vehicle, setVehicle] = useState({});
+  const [isDataFetching, setIsDataFetching] = useState(false);
 
   const { id } = useParams();
 
@@ -35,8 +37,10 @@ const Details = () => {
 
   useEffect(() => {
     async function fetchData() {
+      setIsDataFetching(true);
       const fetchedVehicle = await getAdvertisement(id);
       setVehicle(fetchedVehicle);
+      setIsDataFetching(false);
     }
 
     fetchData();
@@ -117,93 +121,104 @@ const Details = () => {
   );
 
   const vehicleView = (
-    <div className={styles["details-container"]}>
-      <div className={styles["title-container"]}>
-        <h2>{vehicle.title}</h2>
-      </div>
-      <div className={styles["image-slider"]}>
-        <ImageSlider images={vehicle.images} />
-      </div>
-      <section className={styles["specifications"]}>
-        <div className={styles["specification"]}>
-          <span>Make:</span>
-          <span className={styles["specification-detail"]}>{vehicle.make}</span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Model:</span>
-          <span className={styles["specification-detail"]}>
-            {vehicle.model}
-          </span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Fuel:</span>
-          <span className={styles["specification-detail"]}>{vehicle.fuel}</span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Gearbox:</span>
-          <span className={styles["specification-detail"]}>
-            {vehicle.gearbox}
-          </span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Manufacturing date:</span>
-          <span className={styles["specification-detail"]}>
-            {vehicle.manufacturingDate?.slice(0, 7)}
-          </span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Region:</span>
-          <span className={styles["specification-detail"]}>
-            {vehicle.region}
-          </span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Horse power:</span>
-          <span className={styles["specification-detail"]}>
-            {vehicle.horsePower}
-          </span>
-        </div>
-        <div className={styles["specification"]}>
-          <span>Mileage:</span>
-          <span className={styles["specification-detail"]}>
-            {vehicle.mileage}
-          </span>
-        </div>
-        <div
-          className={`${styles["specification"]} ${styles["controls-price-container"]}`}
-        >
-          <div className={`${styles["controls"]} ${styles["additional"]}`}>
-            {isAuth ? (isOwner ? ownerControls : userControls) : ""}
+    <>
+      {isDataFetching && <Loader />}
+      {!isDataFetching && (
+        <div className={styles["details-container"]}>
+          <div className={styles["title-container"]}>
+            <h2>{vehicle.title}</h2>
           </div>
-
-          <div className={`${styles["additional"]}`}>
-            Likes:{" "}
-            <span className={styles["specification-detail"]}>
-              {vehicle.likes?.length}
-            </span>
+          <div className={styles["image-slider"]}>
+            <ImageSlider images={vehicle.images} />
           </div>
-
-          <div className={`${styles["additional"]}`}>
-            <span
-              className={`${styles["specification-detail"]} ${styles["price"]}`}
+          <section className={styles["specifications"]}>
+            <div className={styles["specification"]}>
+              <span>Make:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.make}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Model:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.model}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Fuel:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.fuel}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Gearbox:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.gearbox}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Manufacturing date:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.manufacturingDate?.slice(0, 7)}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Region:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.region}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Horse power:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.horsePower}
+              </span>
+            </div>
+            <div className={styles["specification"]}>
+              <span>Mileage:</span>
+              <span className={styles["specification-detail"]}>
+                {vehicle.mileage}
+              </span>
+            </div>
+            <div
+              className={`${styles["specification"]} ${styles["controls-price-container"]}`}
             >
-              ${vehicle.price}
-            </span>
-          </div>
+              <div className={`${styles["controls"]} ${styles["additional"]}`}>
+                {isAuth ? (isOwner ? ownerControls : userControls) : ""}
+              </div>
+
+              <div className={`${styles["additional"]}`}>
+                Likes:{" "}
+                <span className={styles["specification-detail"]}>
+                  {vehicle.likes?.length}
+                </span>
+              </div>
+
+              <div className={`${styles["additional"]}`}>
+                <span
+                  className={`${styles["specification-detail"]} ${styles["price"]}`}
+                >
+                  ${vehicle.price}
+                </span>
+              </div>
+            </div>
+            <div
+              className={`${styles["specification"]} ${styles["description"]}`}
+            >
+              <span className={styles["specification-detail"]}>
+                {vehicle.description}
+              </span>
+            </div>
+          </section>
+          {deleteModal && (
+            <DeleteModal
+              setDeleteModal={setDeleteModal}
+              deleteHandler={deleteHandler}
+            />
+          )}
         </div>
-        <div className={`${styles["specification"]} ${styles["description"]}`}>
-          <span className={styles["specification-detail"]}>
-            {vehicle.description}
-          </span>
-        </div>
-      </section>
-      {deleteModal && (
-        <DeleteModal
-          setDeleteModal={setDeleteModal}
-          deleteHandler={deleteHandler}
-        />
       )}
-    </div>
+    </>
   );
 
   return vehicle ? vehicleView : "";

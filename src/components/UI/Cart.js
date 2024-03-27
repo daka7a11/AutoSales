@@ -17,7 +17,9 @@ const Cart = ({ vehicle, className }) => {
       onClick={detailsClickHandler}
       className={`${styles["cart"]} ${className || ""}`}
     >
-      <img className={styles["cart-img"]} src={vehicle.images[0]} />
+      <div className={styles["cart-img-container"]}>
+        <img className={styles["cart-img"]} src={vehicle.images[0]} />
+      </div>
       <div className={`${styles["cart-text"]}`}>
         <p className={`${styles["text"]} ${styles["item-title"]}`}>
           {vehicle.title}

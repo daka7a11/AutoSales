@@ -1,11 +1,12 @@
 import styles from "../UI/Form.module.css";
 import authStyles from "./Auth.module.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Errors from "../UI/Errors";
+import Loader from "../UI/Loader";
 
 const Login = () => {
   useEffect(() => {
@@ -16,6 +17,7 @@ const Login = () => {
 
   const authContext = useAuthContext();
   const navigate = useNavigate();
+  const [isSending, setIsSending] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -24,13 +26,15 @@ const Login = () => {
     if (!email || !password) {
       return;
     }
-
+    setIsSending(true);
     try {
       const user = await authContext.login(email, password);
       toast.warn(`Welcome ${user.username || user.firstName}!`);
       navigate("/");
     } catch (err) {
       return;
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -58,9 +62,17 @@ const Login = () => {
           </Link>
         </div>
         <div className={styles["form-wrapper"]}>
-          <button className={`btn ${styles["submit-btn"]}`} type="submit">
-            Login
-          </button>
+          {isSending ? (
+            <Loader />
+          ) : (
+            <button
+              className={`btn ${styles["submit-btn"]}`}
+              type="submit"
+              disabled={isSending}
+            >
+              Login
+            </button>
+          )}
         </div>
       </form>
     </div>

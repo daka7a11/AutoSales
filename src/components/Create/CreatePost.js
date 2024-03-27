@@ -8,6 +8,7 @@ import useData from "../../hooks/useData";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Errors from "../UI/Errors.js";
+import Loader from "../UI/Loader.js";
 
 const requiredMsg = <p className={styles["invalid-message"]}>Required!</p>;
 
@@ -22,6 +23,8 @@ const CreatePost = ({ vehicle }) => {
     useData();
 
   const [errors, setErrors] = useState([]);
+
+  const [isSending, setIsSending] = useState(false);
 
   // #region Input States
 
@@ -235,19 +238,19 @@ const CreatePost = ({ vehicle }) => {
     }
   };
 
-  const isFormValid = true;
-  // titleIsValid &&
-  // typeIsValid &&
-  // makeIsValid &&
-  // modelIsValid &&
-  // fuelIsValid &&
-  // gearboxIsValid &&
-  // priceIsValid &&
-  // manufacturingDateIsValid &&
-  // regionIsValid &&
-  // horsePowerIsValid &&
-  // mileageIsValid &&
-  // descriptionIsValid;
+  const isFormValid =
+    titleIsValid &&
+    typeIsValid &&
+    makeIsValid &&
+    modelIsValid &&
+    fuelIsValid &&
+    gearboxIsValid &&
+    priceIsValid &&
+    manufacturingDateIsValid &&
+    regionIsValid &&
+    horsePowerIsValid &&
+    mileageIsValid &&
+    descriptionIsValid;
 
   const invalidFormClass = !isFormValid && styles["invalid-form"];
 
@@ -274,6 +277,7 @@ const CreatePost = ({ vehicle }) => {
 
     let createdVehicle = null;
 
+    setIsSending(true);
     try {
       if (vehicle) {
         createdVehicle = await editAdvertisement(vehicle._id, data);
@@ -301,6 +305,8 @@ const CreatePost = ({ vehicle }) => {
       console.log(e);
 
       throw e;
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -549,12 +555,17 @@ const CreatePost = ({ vehicle }) => {
         )}
 
         <div className={styles["form-wrapper"]}>
-          <button
-            className={`btn ${styles["submit-btn"]} ${invalidFormClass}`}
-            type="submit"
-          >
-            {vehicle ? "Edit" : "Create"}
-          </button>
+          {isSending ? (
+            <Loader />
+          ) : (
+            <button
+              className={`btn ${styles["submit-btn"]} ${invalidFormClass}`}
+              type="submit"
+              disabled={isSending}
+            >
+              {vehicle ? "Edit" : "Create"}
+            </button>
+          )}
         </div>
       </form>
     </div>

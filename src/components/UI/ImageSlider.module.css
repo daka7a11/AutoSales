@@ -1,15 +1,17 @@
 .slider-container {
   display: flex;
-  width: 60%;
   margin: 3.6rem auto;
-  max-height: auto;
+  width: 60%;
+  height: auto;
   position: relative;
+  overflow: hidden;
 }
 
 .image {
-  width: 100%;
-  height: 100%;
+  width: 30vw;
+  height: 20vw;
   object-fit: cover;
+  margin: 0 auto;
 }
 
 .image:hover {
@@ -58,7 +60,18 @@
   transform: translate(-50%, 0);
 }
 
+@media only screen and (max-width: 1200px) {
+  .image {
+    width: 40vw;
+    height: 30vw;
+  }
+}
+
 @media only screen and (max-width: 850px) {
+  .image {
+    width: 60vw;
+    height: 40vw;
+  }
   .slider-container {
     width: 82%;
   }
